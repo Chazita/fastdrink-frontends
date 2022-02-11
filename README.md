@@ -4,7 +4,7 @@
 
 - `web-admin`: a admin dashboard [Next.js](https://nextjs.org) app
 - `web`: a ecommmerce [Next.js](https://nextjs.org) app
-- `ui`: a stub React component library shared by both `web` and `docs` applications
+- `ui`: a stub React component library shared by both `web-admin` and `web` applications
 - `shared`: a library with types or functions used in both projects.
 - `config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
 - `tsconfig`: `tsconfig.json`s used throughout the monorepo
