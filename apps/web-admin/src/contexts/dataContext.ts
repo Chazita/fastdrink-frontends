@@ -1,4 +1,4 @@
-import { createContext, Dispatch, SetStateAction } from "react";
+import { createContext } from "react";
 
 export type Category = {
 	id: number;
@@ -23,7 +23,7 @@ export type NecessaryData = {
 
 export type DataContextType = {
 	data: NecessaryData;
-	setData: Dispatch<SetStateAction<NecessaryData>>;
+	refetchData: () => Promise<void>;
 };
 
 const DataContext = createContext<DataContextType>(undefined);

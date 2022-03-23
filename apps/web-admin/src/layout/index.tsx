@@ -30,7 +30,7 @@ export default function Layout({ children }: Props) {
 				</DrawerContent>
 			</Drawer>
 			<Header onOpen={onOpen} />
-			<Box ml={{ base: 0, md: 60 }} p="4">
+			<Box ml={{ base: 0, md: 60 }} p="4" h="100%">
 				{children}
 			</Box>
 		</Box>

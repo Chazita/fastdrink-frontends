@@ -10,15 +10,12 @@ import Login from "./login";
 
 import axios from "axios";
 import {
-	QueryClient,
 	QueryClientProvider,
+	QueryClient,
 	QueryClientConfig,
-	Hydrate,
 } from "react-query";
 
-axios.defaults.baseURL = "https://localhost:7134/api";
-
-const config: QueryClientConfig = {
+const queryConfig: QueryClientConfig = {
 	defaultOptions: {
 		mutations: {
 			retry: 0,
@@ -29,29 +26,31 @@ const config: QueryClientConfig = {
 		},
 	},
 };
-const queryClient = new QueryClient(config);
+
+const queryClient = new QueryClient(queryConfig);
+
+axios.defaults.baseURL = "https://localhost:7134/api";
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const router = useRouter();
 	return (
 		<>
 			<Head>
-				<title>Web Admin</title>
+				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				<title>Fast Drink</title>
 			</Head>
 			<QueryClientProvider client={queryClient}>
-				<Hydrate state={pageProps.dehydratedState}>
-					<ChakraProvider resetCSS theme={theme}>
-						<RootContext>
-							{router.asPath === "/login" ? (
-								<Login />
-							) : (
-								<Layout>
-									<Component {...pageProps} />
-								</Layout>
-							)}
-						</RootContext>
-					</ChakraProvider>
-				</Hydrate>
+				<ChakraProvider resetCSS theme={theme}>
+					<RootContext>
+						{router.asPath === "/login" ? (
+							<Login />
+						) : (
+							<Layout>
+								<Component {...pageProps} />
+							</Layout>
+						)}
+					</RootContext>
+				</ChakraProvider>
 			</QueryClientProvider>
 		</>
 	);

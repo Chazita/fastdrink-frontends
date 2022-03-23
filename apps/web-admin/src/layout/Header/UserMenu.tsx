@@ -1,5 +1,7 @@
 import { useContext } from "react";
 import UserContext from "contexts/userContext";
+import Link from "next/link";
+
 import {
 	Avatar,
 	Box,
@@ -12,6 +14,7 @@ import {
 	MenuItem,
 	MenuDivider,
 } from "@chakra-ui/react";
+
 import {
 	MdExpandMore,
 	MdOutlineSettings,
@@ -19,15 +22,33 @@ import {
 	MdLogout,
 } from "react-icons/md";
 import { LinkItemsProps } from "types";
-import Link from "next/link";
+
+import { useMutation, useQueryClient } from "react-query";
+import axios from "axios";
 
 const userLinks: LinkItemsProps[] = [
-	{ name: "Perfil", icon: MdOutlineAccountCircle, path: "#" },
-	{ name: "Configuracion", icon: MdOutlineSettings, path: "#" },
+	{
+		name: "Configuracion",
+		icon: MdOutlineSettings,
+		path: "/user/configuration",
+	},
 ];
 
 const UserMenu = () => {
 	const { userInfo } = useContext(UserContext);
+	const queryClient = useQueryClient();
+
+	const signOutMutation = useMutation(
+		"sign-out",
+		() => {
+			return axios.get("/Auth/log-out", { withCredentials: true });
+		},
+		{
+			onSuccess: () => {
+				queryClient.refetchQueries("check-admin");
+			},
+		}
+	);
 
 	return (
 		<Menu>
@@ -68,7 +89,12 @@ const UserMenu = () => {
 					</Link>
 				))}
 				<MenuDivider />
-				<MenuItem icon={<MdLogout size="16px" />}>Sign out</MenuItem>
+				<MenuItem
+					onClick={() => signOutMutation.mutate()}
+					icon={<MdLogout size="16px" />}
+				>
+					Sign out
+				</MenuItem>
 			</MenuList>
 		</Menu>
 	);

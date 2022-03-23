@@ -9,8 +9,8 @@ import DataContext, {
 import UserContext, { UserInfo } from "./userContext";
 
 import axios, { AxiosResponse } from "axios";
-import { useQueries, useQuery } from "react-query";
 import { Center, Spinner } from "@chakra-ui/react";
+import { useQueries, useQuery } from "react-query";
 
 type Props = {
 	children: ReactNode;
@@ -26,9 +26,9 @@ export default function RootContext({ children }: Props) {
 	});
 
 	const userQuery = useQuery(
-		"user",
-		async () => {
-			return await axios.get<UserInfo>("/Auth/check-admin", {
+		"check-admin",
+		() => {
+			return axios.get<UserInfo>("/Auth/check-admin", {
 				withCredentials: true,
 			});
 		},
@@ -42,7 +42,6 @@ export default function RootContext({ children }: Props) {
 			onError: () => {
 				router.push("/login");
 			},
-			retry: false,
 		}
 	);
 
@@ -81,7 +80,18 @@ export default function RootContext({ children }: Props) {
 
 	return (
 		<UserContext.Provider value={{ userRefetch: userQuery.refetch, userInfo }}>
-			<DataContext.Provider value={{ data, setData }}>
+			<DataContext.Provider
+				value={{
+					data,
+					refetchData: async () => {
+						Promise.all([
+							results[0].refetch(),
+							results[1].refetch(),
+							results[2].refetch(),
+						]);
+					},
+				}}
+			>
 				{userQuery.isLoading ||
 				results[0].isLoading ||
 				results[1].isLoading ||

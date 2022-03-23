@@ -1,4 +1,6 @@
 import { useContext, useState } from "react";
+import { useForm } from "react-hook-form";
+
 import {
 	Button,
 	Center,
@@ -12,40 +14,37 @@ import {
 	InputGroup,
 	InputRightElement,
 	Text,
+	useToast,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
-import Axios from "axios";
 
-import { useRouter } from "next/router";
+import { useMutation } from "react-query";
+import axios from "axios";
+
 import UserContext from "contexts/userContext";
+
+import ErrorReceiver from "shared/src/ErrorReceiver";
 
 type LoginForm = {
 	email: string;
 	password: string;
 };
 
-type ErrorReceiver = {
-	errors: string[];
-};
-
 export default function Login() {
 	const { userRefetch } = useContext(UserContext);
+
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 	} = useForm<LoginForm>();
 
-	const [errorReceiver, setErrorReceiver] = useState<string[]>([]);
-	const [showPassword, setShowPassword] = useState(false);
+	const toast = useToast();
 
 	const loginMutation = useMutation(
-		(user: LoginForm) => {
-			return Axios.post("/Auth/login", user, {
-				withCredentials: true,
-			});
+		"login",
+		(data: LoginForm) => {
+			return axios.post("/Auth/login", data, { withCredentials: true });
 		},
 		{
 			onSuccess: () => {
@@ -53,10 +52,20 @@ export default function Login() {
 			},
 			onError: (error: any) => {
 				const data = error.response.data as ErrorReceiver;
-				setErrorReceiver(data.errors);
+				for (let key in data.errors) {
+					const value = data.errors[key];
+					toast({
+						title: key,
+						description: value,
+						status: "error",
+						duration: 5000,
+						isClosable: true,
+					});
+				}
 			},
 		}
 	);
+	const [showPassword, setShowPassword] = useState(false);
 
 	const loginSubmit = async (data: LoginForm) => {
 		try {
@@ -132,16 +141,10 @@ export default function Login() {
 					variant="solid"
 					isFullWidth
 					mt="2"
+					isLoading={loginMutation.isLoading}
 				>
 					Iniciar Sesión
 				</Button>
-				{loginMutation.isError ? (
-					<Text mt="2" color="red">
-						{errorReceiver[0]}
-					</Text>
-				) : (
-					<></>
-				)}
 			</Container>
 		</Center>
 	);

@@ -5,6 +5,6 @@ export type ProductPaginatedList = {
 	pageNumber: number;
 	totalPages: number;
 	totalCount: number;
-	hasPreviousPage: number;
-	hasNextPage: number;
+	hasPreviousPage: boolean;
+	hasNextPage: boolean;
 };
