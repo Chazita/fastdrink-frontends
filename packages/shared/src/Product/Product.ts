@@ -2,7 +2,7 @@ import { BaseType } from "../BaseType";
 import { ProductPhoto } from "./ProductPhoto";
 
 export interface Product {
-	id: number;
+	id: string;
 	name: string;
 	price: number;
 	volumen: number;

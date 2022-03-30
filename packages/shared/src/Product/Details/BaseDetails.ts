@@ -1,3 +1,3 @@
 export interface BaseDetails {
-	productId: number;
+	productId: string;
 }
