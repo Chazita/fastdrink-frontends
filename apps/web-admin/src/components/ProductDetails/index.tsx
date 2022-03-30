@@ -41,7 +41,7 @@ import {
 import hasExtraDetails from "utils/hasExtraDetails";
 import ShowExtraDataContext from "contexts/showExtraDataContext";
 
-const getProductDetails = (id: number) => {
+const getProductDetails = (id: string) => {
 	return axios.get<ProductDetails>(`/Product/${id} `);
 };
 
@@ -76,7 +76,7 @@ const ProductDetails = () => {
 
 	const { data, isLoading, isFetching, refetch } = useQuery(
 		"/Product/details",
-		() => getProductDetails(+router.query.productId)
+		() => getProductDetails(router.query.productId as string)
 	);
 
 	const updateProductMutation = useMutation(
@@ -315,8 +315,8 @@ const ProductDetails = () => {
 										<Text as="span" fontWeight="bold">
 											Categoria:
 										</Text>{" "}
-										<Text as="span" textTransform="capitalize">
-											{product.category.name}
+										<Text as="span">
+											{capitalizeStringUnderscore(product.category.name)}
 										</Text>
 									</ListItem>
 
@@ -324,8 +324,8 @@ const ProductDetails = () => {
 										<Text as="span" fontWeight="bold">
 											Contenedor:
 										</Text>{" "}
-										<Text as="span" textTransform="capitalize">
-											{product.container.name}
+										<Text as="span">
+											{capitalizeStringUnderscore(product.container.name)}
 										</Text>
 									</ListItem>
 
@@ -333,8 +333,8 @@ const ProductDetails = () => {
 										<Text as="span" fontWeight="bold">
 											Marca:
 										</Text>{" "}
-										<Text as="span" textTransform="capitalize">
-											{product.brand.name}
+										<Text as="span">
+											{capitalizeStringUnderscore(product.brand.name)}
 										</Text>
 									</ListItem>
 									<ShowExtraDataContext.Provider

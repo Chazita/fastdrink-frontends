@@ -29,7 +29,7 @@ type ShowBeerDetailsProps = {
 };
 
 type BeerDetailsForm = {
-	productId?: number;
+	productId?: string;
 	alcoholContent: number;
 	style: string;
 };

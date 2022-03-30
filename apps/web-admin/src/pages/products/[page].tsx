@@ -49,6 +49,7 @@ export default function Products({ params }) {
 				<HStack justifyContent="space-between">
 					<Checkbox
 						checked={showDeleted}
+						defaultChecked={showDeleted}
 						colorScheme="red"
 						onChange={() => setShowDeleted((prev) => !prev)}
 					>

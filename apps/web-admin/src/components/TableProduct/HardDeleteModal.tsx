@@ -19,7 +19,7 @@ const SoftDeleteModal = () => {
 
 	const softDeleteMutation = useMutation(
 		"soft-delete-product",
-		(id: number) =>
+		(id: string) =>
 			axios.delete(`/Product/hard-delete/${id}`, { withCredentials: true }),
 		{
 			onSuccess: () => {
@@ -58,7 +58,9 @@ const SoftDeleteModal = () => {
 						isLoading={softDeleteMutation.isLoading}
 						colorScheme="red"
 						onClick={async () =>
-							await softDeleteMutation.mutateAsync(+router.query.deleteId)
+							await softDeleteMutation.mutateAsync(
+								router.query.deleteId as string
+							)
 						}
 					>
 						Eliminar

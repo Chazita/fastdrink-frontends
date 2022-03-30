@@ -19,7 +19,7 @@ const RecoverModal = () => {
 
 	const softDeleteMutation = useMutation(
 		"recover-product",
-		(id: number) =>
+		(id: string) =>
 			axios.put(
 				`/Product/recover-product/${id}`,
 				{},
@@ -57,7 +57,9 @@ const RecoverModal = () => {
 						isLoading={softDeleteMutation.isLoading}
 						colorScheme="red"
 						onClick={async () =>
-							await softDeleteMutation.mutateAsync(+router.query.recoverId)
+							await softDeleteMutation.mutateAsync(
+								router.query.recoverId as string
+							)
 						}
 					>
 						Recuperar

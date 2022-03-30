@@ -19,7 +19,7 @@ const SoftDeleteModal = () => {
 
 	const softDeleteMutation = useMutation(
 		"soft-delete-product",
-		(id: number) => axios.delete(`/Product/${id}`, { withCredentials: true }),
+		(id: string) => axios.delete(`/Product/${id}`, { withCredentials: true }),
 		{
 			onSuccess: () => {
 				queryClient.refetchQueries("products-admin");
@@ -52,7 +52,9 @@ const SoftDeleteModal = () => {
 						isLoading={softDeleteMutation.isLoading}
 						colorScheme="red"
 						onClick={async () =>
-							await softDeleteMutation.mutateAsync(+router.query.deleteId)
+							await softDeleteMutation.mutateAsync(
+								router.query.deleteId as string
+							)
 						}
 					>
 						Desactivar

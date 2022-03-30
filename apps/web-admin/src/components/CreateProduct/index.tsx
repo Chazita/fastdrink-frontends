@@ -222,7 +222,7 @@ const CreateProduct = ({ refetch }: CreateProductProps) => {
 						>
 							{data.containers.map((container) => (
 								<option key={container.id} value={container.id}>
-									{capitalizeString(container.name)}
+									{capitalizeStringUnderscore(container.name)}
 								</option>
 							))}
 						</Select>
@@ -243,7 +243,7 @@ const CreateProduct = ({ refetch }: CreateProductProps) => {
 						>
 							{data.brands.map((brand) => (
 								<option key={brand.id} value={brand.id}>
-									{capitalizeString(brand.name)}
+									{capitalizeStringUnderscore(brand.name)}
 								</option>
 							))}
 						</Select>

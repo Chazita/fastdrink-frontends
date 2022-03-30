@@ -29,6 +29,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import axios from "axios";
+import { capitalizeStringUnderscore } from "utils/capitalizeString";
 
 type ExtraDataCreateForm = {
 	type: string;
@@ -106,13 +107,11 @@ const ExtraData = () => {
 						<Text color="red.400">No hay Marcas</Text>
 					)}
 					{data.brands.map((brand) => {
-						const name =
-							brand.name.charAt(0).toUpperCase() + brand.name.slice(1);
 						return (
 							<HStack key={brand.id} justifyContent="space-between" w="100%">
-								<Text>{name}</Text>
+								<Text>{capitalizeStringUnderscore(brand.name)}</Text>
 								<Link
-									href={`/extra-data?type=brand&removeId=${brand.id}&name=${name}`}
+									href={`/extra-data?type=brand&removeId=${brand.id}&name=${brand.name}`}
 									passHref
 								>
 									<IconButton
@@ -136,17 +135,15 @@ const ExtraData = () => {
 						<Text color="red.400">No hay Contenedores</Text>
 					)}
 					{data.containers.map((container) => {
-						const name =
-							container.name.charAt(0).toUpperCase() + container.name.slice(1);
 						return (
 							<HStack
 								key={container.id}
 								justifyContent="space-between"
 								w="100%"
 							>
-								<Text>{name}</Text>
+								<Text>{capitalizeStringUnderscore(container.name)}</Text>
 								<Link
-									href={`/extra-data?type=container&removeId=${container.id}&name=${name}`}
+									href={`/extra-data?type=container&removeId=${container.id}&name=${container.name}`}
 									passHref
 								>
 									<IconButton
@@ -170,17 +167,15 @@ const ExtraData = () => {
 						<Text color="red.400">No hay Categorias</Text>
 					)}
 					{data.categories.map((category) => {
-						let name = category.name.replace("_", " ");
-
-						name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 						return (
 							<HStack key={category.id} justifyContent="space-between" w="100%">
-								<Text>{name}</Text>
+								<Text>{capitalizeStringUnderscore(category.name)}</Text>
 							</HStack>
 						);
 					})}
 				</VStack>
 			</Flex>
+
 			<Modal
 				isOpen={
 					!!router.query.type && !!router.query.removeId && !!router.query.name
@@ -208,6 +203,7 @@ const ExtraData = () => {
 									id: router.query.removeId,
 								})
 							}
+							isLoading={deleteMutation.isLoading}
 						>
 							Aceptar
 						</Button>
@@ -266,7 +262,11 @@ const ExtraData = () => {
 						>
 							Cancelar
 						</Button>
-						<Button type="submit" colorScheme="green">
+						<Button
+							type="submit"
+							colorScheme="green"
+							isLoading={createMutation.isLoading}
+						>
 							Crear
 						</Button>
 					</ModalFooter>
