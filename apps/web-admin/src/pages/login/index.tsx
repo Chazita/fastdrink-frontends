@@ -13,7 +13,6 @@ import {
 	Input,
 	InputGroup,
 	InputRightElement,
-	Text,
 	useToast,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
@@ -89,7 +88,11 @@ export default function Login() {
 						{...register("email", {
 							required: {
 								value: true,
-								message: "El Correo Electronico es requerida.",
+								message: "El Correo Electrónico es requerido.",
+							},
+							pattern: {
+								value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+								message: "El Correo Electrónico no es valido.",
 							},
 						})}
 						id="email"
@@ -108,7 +111,7 @@ export default function Login() {
 							{...register("password", {
 								required: {
 									value: true,
-									message: "La contraseña es requerida.",
+									message: "La Contraseña es requerida.",
 								},
 								maxLength: {
 									value: 24,
@@ -120,7 +123,7 @@ export default function Login() {
 								},
 							})}
 							id="password"
-							placeholder="Password"
+							placeholder="Contraseña"
 						/>
 						<InputRightElement>
 							<IconButton

@@ -92,10 +92,7 @@ export default function RootContext({ children }: Props) {
 					},
 				}}
 			>
-				{userQuery.isLoading ||
-				results[0].isLoading ||
-				results[1].isLoading ||
-				results[2].isLoading ? (
+				{userQuery.isLoading ? (
 					<Center h="100vh" position="absolute" w="100vw" bg="black" zIndex="1">
 						<Spinner size="xl" />
 					</Center>

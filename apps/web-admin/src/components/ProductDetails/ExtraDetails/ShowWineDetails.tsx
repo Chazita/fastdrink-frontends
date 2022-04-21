@@ -29,7 +29,7 @@ type ShowWineDetailsProps = {
 };
 
 type WineDetailsForm = {
-	productId?: number;
+	productId?: string;
 	alcoholContent: number;
 	variety?: string;
 	style?: string;

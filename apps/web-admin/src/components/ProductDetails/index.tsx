@@ -46,7 +46,7 @@ const getProductDetails = (id: string) => {
 };
 
 type DetailsForm = {
-	id: number;
+	id: string;
 	name: string;
 	price: number;
 	volumen: number;

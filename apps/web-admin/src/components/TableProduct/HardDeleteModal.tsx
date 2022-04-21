@@ -9,6 +9,7 @@ import {
 	Text,
 	Button,
 	ModalFooter,
+	useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
@@ -16,6 +17,7 @@ import { useMutation, useQueryClient } from "react-query";
 const SoftDeleteModal = () => {
 	const queryClient = useQueryClient();
 	const router = useRouter();
+	const toast = useToast();
 
 	const softDeleteMutation = useMutation(
 		"soft-delete-product",
@@ -25,6 +27,12 @@ const SoftDeleteModal = () => {
 			onSuccess: () => {
 				queryClient.refetchQueries("products-admin");
 				router.back();
+				toast({
+					title: "Producto ha sido elimnado.",
+					isClosable: true,
+					status: "success",
+					description: `El producto ${router.query.deleteName} ha sido eliminado.`,
+				});
 			},
 		}
 	);

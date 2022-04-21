@@ -22,7 +22,7 @@ type ShowWaterDetailsProps = {
 };
 
 type WaterDetailsForm = {
-	productId?: number;
+	productId?: string;
 	lowInSodium: boolean;
 	gasified: boolean;
 };

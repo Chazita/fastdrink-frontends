@@ -26,6 +26,7 @@ type CreateAdminForm = {
 	firstName: string;
 	lastName: string;
 	password: string;
+	confirmPassword: string;
 };
 
 const CreateAdmin = () => {
@@ -33,6 +34,7 @@ const CreateAdmin = () => {
 		register,
 		handleSubmit,
 		reset,
+		getValues,
 		formState: { errors },
 	} = useForm<CreateAdminForm>();
 	const toast = useToast();
@@ -87,12 +89,11 @@ const CreateAdmin = () => {
 							{...register("email", {
 								required: {
 									value: true,
-									message: "El Correo Electronico es requerida.",
+									message: "El Correo Electrónico es requerido.",
 								},
-								maxLength: {
-									value: 150,
-									message:
-										"El Correo Electronico debe tener como maximo 150 caracteres.",
+								pattern: {
+									value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+									message: "El Correo Electrónico no es valido.",
 								},
 							})}
 							id="email"
@@ -111,7 +112,7 @@ const CreateAdmin = () => {
 								{...register("password", {
 									required: {
 										value: true,
-										message: "La contraseña es requerida.",
+										message: "La Contraseña es requerida.",
 									},
 									maxLength: {
 										value: 24,
@@ -139,17 +140,61 @@ const CreateAdmin = () => {
 						</FormErrorMessage>
 					</FormControl>
 
+					<FormControl mt="2" isInvalid={errors.confirmPassword ? true : false}>
+						<FormLabel htmlFor="password">Confirmar Contraseña</FormLabel>
+						<InputGroup>
+							<Input
+								type={showPassword ? "text" : "password"}
+								{...register("confirmPassword", {
+									required: {
+										value: true,
+										message: "La confirmacion de la Contraseña es requerida.",
+									},
+									maxLength: {
+										value: 24,
+										message: "El maximo de caracteres es 24.",
+									},
+									minLength: {
+										value: 4,
+										message: "El minimo de caracteres es 4.",
+									},
+									validate: {
+										matchesPresviousPassword: (value) => {
+											const { password } = getValues();
+											return (
+												value === password ||
+												"Las Contraseñas no son identicas."
+											);
+										},
+									},
+								})}
+								placeholder="Password"
+							/>
+							<InputRightElement>
+								<IconButton
+									bg="transparent"
+									aria-label="Show or hide password"
+									onClick={() => setShowPassword((prev) => (prev = !prev))}
+									icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
+								/>
+							</InputRightElement>
+						</InputGroup>
+						<FormErrorMessage>
+							{errors.confirmPassword ? errors.confirmPassword.message : ""}
+						</FormErrorMessage>
+					</FormControl>
+
 					<FormControl mt="2" isInvalid={errors.firstName ? true : false}>
 						<FormLabel htmlFor="firstName">Nombre</FormLabel>
 						<Input
 							{...register("firstName", {
 								required: {
 									value: true,
-									message: "El nombre es requerido.",
+									message: "El Nombre es requerido.",
 								},
 								maxLength: {
 									value: 40,
-									message: "El nombre debe tener como maximo 40 caracteres.",
+									message: "El Nombre debe tener como maximo 40 caracteres.",
 								},
 							})}
 							id="firstName"
@@ -165,11 +210,11 @@ const CreateAdmin = () => {
 							{...register("lastName", {
 								required: {
 									value: true,
-									message: "El apellido es requerido.",
+									message: "El Apellido es requerido.",
 								},
 								maxLength: {
 									value: 40,
-									message: "El apellido debe tener como maximo 40 caracteres.",
+									message: "El Apellido debe tener como maximo 40 caracteres.",
 								},
 							})}
 							id="lastName"

@@ -14,6 +14,7 @@ import {
 	NumberInputStepper,
 	NumberIncrementStepper,
 	NumberDecrementStepper,
+	useToast,
 } from "@chakra-ui/react";
 
 import ShowExtraDataContext from "contexts/showExtraDataContext";
@@ -27,12 +28,13 @@ type ShowAlcoholDetailsProps = {
 };
 
 type AlcoholDetailsForm = {
-	productId?: number;
+	productId?: string;
 	alcoholContent: number;
 };
 
 const ShowAlcoholDetails = ({ product }: ShowAlcoholDetailsProps) => {
 	const { register, handleSubmit, setValue } = useForm<AlcoholDetailsForm>();
+	const toast = useToast();
 
 	const hasExtra = hasExtraDetails(product);
 	const { setShowFormExtra, showFormExtra, refetchProduct } =

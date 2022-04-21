@@ -1,8 +1,6 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 import {
-	HStack,
 	Image,
 	Table,
 	Tbody,
@@ -16,16 +14,18 @@ import {
 	Badge,
 	Stack,
 } from "@chakra-ui/react";
-import axios, { AxiosResponse } from "axios";
 import { MdDelete, MdOutlineRestore } from "react-icons/md";
 
+import { AxiosResponse } from "axios";
 import {
 	QueryObserverResult,
 	RefetchOptions,
 	RefetchQueryFilters,
-	useMutation,
 } from "react-query";
+
 import { Product, ProductPaginatedList } from "shared/src/Product";
+import { capitalizeStringUnderscore } from "utils/capitalizeString";
+
 import SoftDeleteModal from "./SoftDeleteModal";
 import RecoverModal from "./RevocerModal";
 import HardDeleteModal from "./HardDeleteModal";
@@ -41,28 +41,10 @@ type TableProductProps = {
 	>;
 };
 
-const TableProduct = ({
-	items,
-	page,
-	showDeleted,
-	refetch,
-}: TableProductProps) => {
-	const router = useRouter();
-
+const TableProduct = ({ items, page, showDeleted }: TableProductProps) => {
 	if (!showDeleted) {
 		items = items.filter((product) => product.deletedAt == null);
 	}
-
-	const softDeleteMutation = useMutation(
-		"soft-delete-product",
-		(id: number) => axios.delete(`/Product/${id}`, { withCredentials: true }),
-		{
-			onSuccess: () => {
-				refetch();
-				router.back();
-			},
-		}
-	);
 
 	return (
 		<>
@@ -70,9 +52,9 @@ const TableProduct = ({
 				<Thead>
 					<Tr>
 						<Th>Producto</Th>
-						<Th d={["none", "display"]}>Precio</Th>
-						<Th d={["none", "display"]}>Categoria</Th>
-						<Th d={["none", "display"]}>Stock</Th>
+						<Th d={["none", "table-cell"]}>Precio</Th>
+						<Th d={["none", "table-cell"]}>Categoria</Th>
+						<Th d={["none", "table-cell"]}>Stock</Th>
 						<Th>Estado</Th>
 						<Th></Th>
 					</Tr>
@@ -89,13 +71,15 @@ const TableProduct = ({
 										</Text>
 									</Stack>
 								</Td>
-								<Td d={["none", "display"]}>
+								<Td d={["none", "none", "none", "table-cell"]}>
 									<Text>${product.price.toFixed(2)}</Text>
 								</Td>
-								<Td d={["none", "display"]}>
-									<Text>{product.category.name}</Text>
+								<Td d={["none", "none", "none", "table-cell"]}>
+									<Text>
+										{capitalizeStringUnderscore(product.category.name)}
+									</Text>
 								</Td>
-								<Td d={["none", "display"]}>
+								<Td d={["none", "none", "none", "table-cell"]}>
 									<Text>{product.stock}</Text>
 								</Td>
 								<Td>

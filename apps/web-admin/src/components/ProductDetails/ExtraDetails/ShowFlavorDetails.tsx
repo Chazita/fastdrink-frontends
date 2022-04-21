@@ -23,7 +23,7 @@ type ShowFlavorDetailsProps = {
 };
 
 type FlavorDetailsForm = {
-	productId?: number;
+	productId?: string;
 	flavor: string;
 };
 

@@ -25,7 +25,7 @@ type ShowEnergyDrinkDetailsProps = {
 };
 
 type EnergyDrinkDetailsForm = {
-	productId: number;
+	productId: string;
 	nonAlcoholic: boolean;
 	energizing: boolean;
 	dietetics: boolean;

@@ -24,7 +24,7 @@ type ShowSodaDetailsProps = {
 };
 
 type SodaDetailsForm = {
-	productId?: number;
+	productId?: string;
 	flavor: string;
 	dietetics: boolean;
 };

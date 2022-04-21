@@ -9,6 +9,7 @@ import {
 	Text,
 	Button,
 	ModalFooter,
+	useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
@@ -16,6 +17,7 @@ import { useMutation, useQueryClient } from "react-query";
 const RecoverModal = () => {
 	const queryClient = useQueryClient();
 	const router = useRouter();
+	const toast = useToast();
 
 	const softDeleteMutation = useMutation(
 		"recover-product",
@@ -29,6 +31,12 @@ const RecoverModal = () => {
 			onSuccess: () => {
 				queryClient.refetchQueries("products-admin");
 				router.back();
+				toast({
+					title: "Producto ha sido recuperado",
+					isClosable: true,
+					status: "success",
+					description: `El producto ${router.query.recoverName} ha sido recuperado.`,
+				});
 			},
 		}
 	);

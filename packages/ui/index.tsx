@@ -1,2 +1,5 @@
 import * as React from "react";
-export * from "./Button";
+
+import Paginate from "./src/pagination";
+
+export { Paginate };

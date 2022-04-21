@@ -20,6 +20,7 @@ import { ProductPaginatedList } from "shared/src/Product";
 import ProductDetails from "components/ProductDetails";
 import CreateProduct from "components/CreateProduct";
 import TableProduct from "components/TableProduct";
+import { Paginate } from "ui";
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 	return {
@@ -31,17 +32,23 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
 export default function Products({ params }) {
 	const router = useRouter();
-	const [page] = useState(params.page);
+	const [page, setPage] = useState(+params.page);
 
 	const [showDeleted, setShowDeleted] = useState(false);
 
 	const { data, isLoading, isFetching, refetch } = useQuery(
-		"products-admin",
+		["products-admin", page],
 		() =>
 			axios.get<ProductPaginatedList>(`/Product/admin?PageNumber=${page}`, {
 				withCredentials: true,
-			})
+			}),
+		{ keepPreviousData: true }
 	);
+
+	const handlePagination = (num: number) => {
+		router.push(`/products/${num}`);
+		setPage((prev) => (prev = num));
+	};
 
 	if (!isLoading && !isFetching && data !== undefined) {
 		return (
@@ -67,6 +74,12 @@ export default function Products({ params }) {
 					showDeleted={showDeleted}
 					refetch={refetch}
 				/>
+				<Paginate
+					page={page}
+					pagesCount={data.data.totalPages}
+					handlePagination={handlePagination}
+				/>
+
 				<Modal isOpen={!!router.query.productId} onClose={() => router.back()}>
 					<ModalOverlay />
 					<ProductDetails />
