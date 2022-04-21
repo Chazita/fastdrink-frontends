@@ -1,5 +1,4 @@
-import * as React from "react";
+import Paginate from "./src/Paginate";
+import ColorModeButton from "./src/ColorModeButton";
 
-import Paginate from "./src/pagination";
-
-export { Paginate };
+export { Paginate, ColorModeButton };
