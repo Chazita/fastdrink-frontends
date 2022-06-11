@@ -5,13 +5,17 @@ import {
 	IconButton,
 	useColorModeValue,
 	Text,
+	useColorMode,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import NavLink from "../NavLink";
 import Link from "next/link";
 
-import { MdPerson, MdShoppingCart, MdSearch } from "react-icons/md";
+import { MdSearch } from "react-icons/md";
 import { LinkRoutes } from "utils/linkRoutes";
+import UserHeader from "./UserHeader";
+import { ColorModeButton } from "ui";
+import ShoppingCart from "./ShoppingCart";
 
 type HeaderProps = {
 	isOpen: boolean;
@@ -20,6 +24,7 @@ type HeaderProps = {
 };
 
 const Header = ({ isOpen, onClose, onOpen }: HeaderProps) => {
+	const { colorMode, toggleColorMode } = useColorMode();
 	return (
 		<Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
 			<Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
@@ -41,33 +46,25 @@ const Header = ({ isOpen, onClose, onOpen }: HeaderProps) => {
 						))}
 					</HStack>
 				</HStack>
-				<HStack>
+				<Flex direction={"row"} gap={"2"}>
 					<Link href={"#"} passHref>
 						<IconButton
 							variant={"ghost"}
 							size={"md"}
 							icon={<MdSearch size={"24"} />}
-							aria-label="signIn"
+							aria-label="search"
 						/>
 					</Link>
 					{/* Here should be change if the user is loged */}
-					<Link href={"/login"} passHref>
-						<IconButton
-							variant={"ghost"}
-							size={"md"}
-							icon={<MdPerson size={"24"} />}
-							aria-label="signIn"
-						/>
-					</Link>
-					<Link href={"#"} passHref>
-						<IconButton
-							variant={"ghost"}
-							size={"md"}
-							icon={<MdShoppingCart size={"24"} />}
-							aria-label="signIn"
-						/>
-					</Link>
-				</HStack>
+					<UserHeader />
+					<ShoppingCart />
+					<ColorModeButton
+						colorMode={colorMode}
+						onClick={toggleColorMode}
+						variant="ghost"
+						d={{ base: "none", md: "inline-flex" }}
+					/>
+				</Flex>
 			</Flex>
 		</Box>
 	);

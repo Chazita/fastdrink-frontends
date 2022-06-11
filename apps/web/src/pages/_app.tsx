@@ -11,7 +11,12 @@ import {
 	QueryClient,
 	QueryClientConfig,
 } from "react-query";
-import { useRouter } from "next/router";
+
+import { UserProvider } from "contexts/userContext";
+import {
+	ShoppingCartContext,
+	ShoppingCartProvider,
+} from "contexts/shoppingCartContext";
 
 const queryConfig: QueryClientConfig = {
 	defaultOptions: {
@@ -38,9 +43,13 @@ function MyApp({ Component, pageProps }: AppProps) {
 			</Head>
 			<QueryClientProvider client={queryClient}>
 				<ChakraProvider resetCSS theme={theme}>
-					<Layout>
-						<Component {...pageProps} />
-					</Layout>
+					<UserProvider>
+						<ShoppingCartProvider>
+							<Layout>
+								<Component {...pageProps} />
+							</Layout>
+						</ShoppingCartProvider>
+					</UserProvider>
 				</ChakraProvider>
 			</QueryClientProvider>
 		</>

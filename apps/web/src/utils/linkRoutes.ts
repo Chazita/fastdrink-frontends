@@ -10,6 +10,6 @@ export const LinkRoutes: LinkRoute[] = [
 	},
 	{
 		name: "Ver Productos",
-		path: "/productos",
+		path: "/products/1",
 	},
 ];

@@ -13,7 +13,7 @@ const Layout = ({ children }: LayoutProps) => {
 		<Box>
 			<Header isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
 			<DrawerApp isOpen={isOpen} onClose={onClose} />
-			<Box>{children}</Box>
+			<>{children}</>
 		</Box>
 	);
 };

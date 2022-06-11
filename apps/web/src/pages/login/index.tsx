@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 import {
 	Button,
@@ -13,9 +15,13 @@ import {
 	Input,
 	InputGroup,
 	InputRightElement,
+	Text,
 } from "@chakra-ui/react";
 
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { useMutation } from "react-query";
+import axios from "axios";
+import { UserContext } from "contexts/userContext";
 
 type LoginForm = {
 	email: string;
@@ -23,15 +29,43 @@ type LoginForm = {
 };
 
 const Login = () => {
+	const router = useRouter();
 	const [showPassword, setShowPassword] = useState(false);
+	const { userRefetch, userInfo } = useContext(UserContext);
+	const loginMutation = useMutation(
+		"login",
+		(data: LoginForm) => {
+			return axios.post("/Auth/login", data, { withCredentials: true });
+		},
+		{
+			onSuccess: () => {
+				userRefetch();
+				router.push("/");
+			},
+		}
+	);
+
+	useEffect(() => {
+		if (userInfo !== undefined) router.push("/");
+	}, [userInfo]);
+
 	const {
 		register,
-
+		handleSubmit,
 		formState: { errors },
 	} = useForm<LoginForm>();
+
+	const handleLogin = (data: LoginForm) => {
+		loginMutation.mutate(data);
+	};
+
 	return (
-		<Center h="100vh">
-			<Container w={["90vw", "50vw"]} as="form">
+		<Center minH={"90vh"}>
+			<Container
+				w={["90vw", "50vw"]}
+				as="form"
+				onSubmit={handleSubmit(handleLogin)}
+			>
 				<Heading>Iniciar Sesión</Heading>
 				<FormControl mt="2" isInvalid={errors.email ? true : false}>
 					<FormLabel htmlFor="email">Correo Electronico</FormLabel>
@@ -95,9 +129,19 @@ const Login = () => {
 					variant="solid"
 					isFullWidth
 					mt="2"
+					isLoading={loginMutation.isLoading}
 				>
 					Iniciar Sesión
 				</Button>
+				<Text mt={"2"}>
+					¿No tienes una cuenta? Registrate{" "}
+					<Link href={"/register"} passHref>
+						<Text as={"a"} color={"blue.400"}>
+							aquí
+						</Text>
+					</Link>
+					.
+				</Text>
 			</Container>
 		</Center>
 	);
