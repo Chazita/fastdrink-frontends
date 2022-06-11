@@ -30,19 +30,19 @@ import {
 import axios from "axios";
 import { useMutation, useQuery } from "react-query";
 
-import { ProductDetails } from "shared/src/Product/ProductDetails";
+import { ProductDetails } from "shared/types/Product/ProductDetails";
 import ShowExtraDetails from "./ShowExtraDetails";
 import DataContext from "contexts/dataContext";
 
 import {
 	capitalizeString,
 	capitalizeStringUnderscore,
-} from "utils/capitalizeString";
+} from "shared/utils/capitalizeString";
 import hasExtraDetails from "utils/hasExtraDetails";
 import ShowExtraDataContext from "contexts/showExtraDataContext";
 
 const getProductDetails = (id: string) => {
-	return axios.get<ProductDetails>(`/Product/${id} `);
+	return axios.get<ProductDetails>(`/Product/get-details/${id} `);
 };
 
 type DetailsForm = {
@@ -74,9 +74,8 @@ const ProductDetails = () => {
 		formState: { errors },
 	} = useForm<DetailsForm>();
 
-	const { data, isLoading, isFetching, refetch } = useQuery(
-		"/Product/details",
-		() => getProductDetails(router.query.productId as string)
+	const { data, refetch } = useQuery("/Product/details", () =>
+		getProductDetails(router.query.productId as string)
 	);
 
 	const updateProductMutation = useMutation(
@@ -99,7 +98,7 @@ const ProductDetails = () => {
 		await updateProductMutation.mutateAsync(data);
 	};
 
-	if (!isLoading && !isFetching) {
+	if (data !== undefined) {
 		const product = data.data;
 		const hasExtras = hasExtraDetails(product);
 
@@ -384,7 +383,7 @@ const ProductDetails = () => {
 
 	return (
 		<ModalContent>
-			<h1>Loading</h1>;
+			<h1>Loading</h1>
 		</ModalContent>
 	);
 };

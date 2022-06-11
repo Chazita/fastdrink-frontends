@@ -20,7 +20,6 @@ import {
 	ModalContent,
 	ModalFooter,
 	ModalHeader,
-	ModalOverlay,
 	NumberDecrementStepper,
 	NumberIncrementStepper,
 	NumberInput,
@@ -31,11 +30,8 @@ import {
 
 import axios, { AxiosResponse } from "axios";
 
-import {
-	capitalizeString,
-	capitalizeStringUnderscore,
-} from "utils/capitalizeString";
-import { ProductPaginatedList } from "shared/src/Product/ProductPaginatedList";
+import { capitalizeStringUnderscore } from "shared/utils/capitalizeString";
+import { ProductPaginatedList } from "shared/types/Product/ProductPaginatedList";
 
 type CreateProductForm = {
 	name: string;

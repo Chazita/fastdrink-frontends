@@ -29,7 +29,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import axios from "axios";
-import { capitalizeStringUnderscore } from "utils/capitalizeString";
+import { capitalizeStringUnderscore } from "shared/utils/capitalizeString";
 
 type ExtraDataCreateForm = {
 	type: string;

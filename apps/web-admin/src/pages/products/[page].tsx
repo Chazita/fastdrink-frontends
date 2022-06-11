@@ -15,7 +15,7 @@ import { MdAdd } from "react-icons/md";
 
 import axios from "axios";
 import { useQuery } from "react-query";
-import { ProductPaginatedList } from "shared/src/Product";
+import { ProductPaginatedList } from "shared/types/Product";
 
 import ProductDetails from "components/ProductDetails";
 import CreateProduct from "components/CreateProduct";

@@ -23,8 +23,8 @@ import {
 	RefetchQueryFilters,
 } from "react-query";
 
-import { Product, ProductPaginatedList } from "shared/src/Product";
-import { capitalizeStringUnderscore } from "utils/capitalizeString";
+import { Product, ProductPaginatedList } from "shared/types/Product";
+import { capitalizeStringUnderscore } from "shared/utils/capitalizeString";
 
 import SoftDeleteModal from "./SoftDeleteModal";
 import RecoverModal from "./RevocerModal";
