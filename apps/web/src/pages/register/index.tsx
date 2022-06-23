@@ -50,7 +50,6 @@ const Register = () => {
 					duration: 5000,
 					isClosable: true,
 				});
-				router.push("/login");
 			},
 		}
 	);

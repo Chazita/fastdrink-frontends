@@ -1,6 +1,5 @@
-import { find } from "cypress/types/lodash";
 import { createContext, useEffect, useReducer, Dispatch } from "react";
-import { Product } from "shared/src/types";
+import { Product } from "shared/types";
 
 export type ProductOrder = {
 	product: Product;
@@ -23,6 +22,7 @@ export enum ShoppingCartActionKind {
 	ADD = "add",
 	REMOVE = "remove",
 	UPDATE = "update",
+	RESET = "reset",
 }
 
 type ShoppingCartAction = {
@@ -109,6 +109,16 @@ const reducer = (
 			localStorage.setItem("shopping-cart", JSON.stringify(state));
 			return { ...state };
 		}
+
+		case ShoppingCartActionKind.RESET: {
+			state.items = [];
+			state.subTotal = 0;
+			state.totalDiscount = 0;
+			state.totalPrice = 0;
+
+			return { ...state };
+		}
+
 		default:
 			state;
 	}

@@ -15,8 +15,8 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction } from "react";
 import { useQuery } from "react-query";
-import { BaseType } from "shared/src/types";
-import { capitalizeStringUnderscore } from "shared/src/utils/capitalizeString";
+import { BaseType } from "shared/types";
+import { capitalizeStringUnderscore } from "shared/utils/capitalizeString";
 
 type FilterContainerProps = {
 	setOrder: Dispatch<SetStateAction<string>>;

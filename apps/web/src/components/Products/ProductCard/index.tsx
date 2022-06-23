@@ -14,7 +14,7 @@ import {
 	NumberDecrementStepper,
 	Link as LinkChakra,
 } from "@chakra-ui/react";
-import { Product } from "shared/src/types";
+import { Product } from "shared/types";
 
 import { MdAdd, MdDelete } from "react-icons/md";
 import { useContext, useState } from "react";

@@ -1,5 +1,5 @@
 const Home = () => {
-	return <>Non</>;
+	return <>No se me ocurre algun diseño. XD</>;
 };
 
 export default Home;
