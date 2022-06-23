@@ -25,7 +25,7 @@ const StepperBox = ({
 			<Heading fontSize={"xl"} mb={isActive ? "2" : ""}>
 				{title}
 			</Heading>
-			{children}
+			{isActive ? <>{children}</> : <></>}
 		</Box>
 	);
 };
