@@ -1,6 +1,6 @@
 import useSteps from "hooks/useSteps";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { useMutation } from "react-query";
 
@@ -53,6 +53,14 @@ const CheckoutPurchase = () => {
 
 	const { shoppingCart, dispatch } = useContext(ShoppingCartContext);
 	const { userInfo } = useContext(UserContext);
+
+	useEffect(() => {
+		setTimeout(() => {
+			if (shoppingCart.items.length === 0) {
+				router.push("/products/1");
+			}
+		}, 500);
+	});
 
 	const mutationOrder = useMutation(
 		"create-order",
@@ -201,6 +209,7 @@ const CheckoutPurchase = () => {
 						>
 							<SecondStep
 								setAddress={setAddress}
+								address={address}
 								prevStep={prevStep}
 								nextStep={nextStep}
 							/>

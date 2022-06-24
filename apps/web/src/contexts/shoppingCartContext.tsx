@@ -116,6 +116,7 @@ const reducer = (
 			state.totalDiscount = 0;
 			state.totalPrice = 0;
 
+			localStorage.removeItem("shopping-cart");
 			return { ...state };
 		}
 

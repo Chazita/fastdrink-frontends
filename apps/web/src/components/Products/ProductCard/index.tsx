@@ -72,7 +72,12 @@ const ProductCard = ({ item }: ProductCardProps) => {
 				<HStack>
 					<NumberInput
 						value={count}
-						onChange={(value) => setCount(+value)}
+						onChange={(value) => {
+							if (+value > item.stock) {
+								setCount(item.stock);
+							}
+							setCount(+value);
+						}}
 						min={0}
 						max={item.stock}
 					>

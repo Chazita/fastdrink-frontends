@@ -16,14 +16,22 @@ type SecondStepProps = {
 	nextStep: () => void;
 	prevStep: () => void;
 	setAddress: Dispatch<SetStateAction<Address>>;
+	address: Address;
 };
 
-const SecondStep = ({ nextStep, prevStep, setAddress }: SecondStepProps) => {
+const SecondStep = ({
+	nextStep,
+	prevStep,
+	setAddress,
+	address,
+}: SecondStepProps) => {
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<Address>();
+	} = useForm<Address>({
+		defaultValues: { province: "Provincia de Buenos Aires", ...address },
+	});
 
 	const nextSubmit = (data: Address) => {
 		setAddress({ province: "Provincia de Buenos Aires", ...data });
@@ -35,11 +43,7 @@ const SecondStep = ({ nextStep, prevStep, setAddress }: SecondStepProps) => {
 			<SimpleGrid columns={{ base: 1, md: 2 }}>
 				<FormControl w={{ base: "100%", md: "90%" }}>
 					<FormLabel>Provincia</FormLabel>
-					<Input
-						value="Provincia de Buenos Aires"
-						disabled
-						{...register("province")}
-					/>
+					<Input disabled {...register("province")} />
 				</FormControl>
 
 				<FormControl
