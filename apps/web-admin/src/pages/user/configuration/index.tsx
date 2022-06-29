@@ -1,6 +1,5 @@
-import { Divider, Flex, VStack } from "@chakra-ui/react";
+import { Divider, Flex } from "@chakra-ui/react";
 import {
-	AddAddressUser,
 	ChangeName,
 	ChangePassword,
 	ChangeEmailAddress,
@@ -14,7 +13,6 @@ const UserConfiguration = () => {
 			<Divider mt={"5"} mb={"5"} />
 			<ChangeEmailAddress />
 			<Divider mt={"5"} mb={"5"} />
-			<AddAddressUser />
 		</Flex>
 	);
 };

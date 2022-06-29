@@ -1,4 +1,4 @@
-import { ProductDetails } from "shared/src/Product/ProductDetails";
+import { ProductDetails } from "shared/types/Product/ProductDetails";
 
 const hasExtraDetails = ({
 	alcoholDetails,

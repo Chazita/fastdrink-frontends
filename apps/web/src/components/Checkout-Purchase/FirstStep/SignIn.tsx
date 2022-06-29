@@ -7,7 +7,6 @@ import {
 	FormControl,
 	FormErrorMessage,
 	FormLabel,
-	Heading,
 	IconButton,
 	Input,
 	InputGroup,

@@ -19,7 +19,7 @@ import {
 } from "@chakra-ui/react";
 
 import ShowExtraDataContext from "contexts/showExtraDataContext";
-import { ProductDetails } from "shared/src/Product/ProductDetails";
+import { ProductDetails } from "shared/types/Product/ProductDetails";
 import hasExtraDetails from "utils/hasExtraDetails";
 import { useMutation } from "react-query";
 import axios from "axios";

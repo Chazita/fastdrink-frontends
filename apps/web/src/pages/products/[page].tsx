@@ -4,7 +4,7 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useQuery } from "react-query";
-import { ProductPaginatedList } from "shared/src/types/Product";
+import { ProductPaginatedList } from "shared/types/Product";
 
 import ProductCard from "components/Products/ProductCard";
 
@@ -24,9 +24,10 @@ const Products = ({ params }) => {
 	const [page, setPage] = useState(+params.page);
 	const [order, setOrder] = useState<string>("");
 	const [brand, setBrand] = useState<string>("");
+	const [search, setSearch] = useState<string>("");
 
 	const { data } = useQuery(
-		["get-products", page, order, brand],
+		["get-products", page, order, brand, search],
 		() => {
 			let extraPath = "";
 
@@ -36,6 +37,10 @@ const Products = ({ params }) => {
 
 			if (brand.length > 0) {
 				extraPath += `&Brand=${brand}`;
+			}
+
+			if (search.length > 0) {
+				extraPath += `&Search=${search}`;
 			}
 
 			return axios.get<ProductPaginatedList>(
@@ -56,7 +61,11 @@ const Products = ({ params }) => {
 	if (data !== undefined) {
 		return (
 			<Flex direction={{ base: "column", md: "row" }} mt={"4"}>
-				<FilterContainer setOrder={setOrder} setBrand={setBrand} />
+				<FilterContainer
+					setOrder={setOrder}
+					setBrand={setBrand}
+					setSearch={setSearch}
+				/>
 				<Container centerContent>
 					<Grid
 						templateColumns={{

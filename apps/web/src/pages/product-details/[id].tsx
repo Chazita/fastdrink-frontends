@@ -3,7 +3,7 @@ import { useState } from "react";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 
-import { ProductDetails } from "shared/src/types/Product/ProductDetails";
+import { ProductDetails } from "shared/types/Product/ProductDetails";
 import axios from "axios";
 import {
 	Container,

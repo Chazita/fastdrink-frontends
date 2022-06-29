@@ -16,12 +16,14 @@ import {
 	InputGroup,
 	InputRightElement,
 	Text,
+	useToast,
 } from "@chakra-ui/react";
 
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useMutation } from "react-query";
 import axios from "axios";
 import { UserContext } from "contexts/userContext";
+import ErrorResponse from "shared/types/ErrorResponse";
 
 type LoginForm = {
 	email: string;
@@ -30,6 +32,7 @@ type LoginForm = {
 
 const Login = () => {
 	const router = useRouter();
+	const toast = useToast();
 	const [showPassword, setShowPassword] = useState(false);
 	const { userRefetch, userInfo } = useContext(UserContext);
 	const loginMutation = useMutation(
@@ -41,6 +44,19 @@ const Login = () => {
 			onSuccess: () => {
 				userRefetch();
 				router.push("/");
+			},
+			onError: (error: any) => {
+				const data = error.response.data as ErrorResponse;
+				for (let key in data.errors) {
+					const value = data.errors[key];
+					toast({
+						title: key,
+						description: value,
+						status: "error",
+						duration: 5000,
+						isClosable: true,
+					});
+				}
 			},
 		}
 	);

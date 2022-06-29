@@ -9,9 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import NavLink from "../NavLink";
-import Link from "next/link";
 
-import { MdSearch } from "react-icons/md";
 import { LinkRoutes } from "utils/linkRoutes";
 import UserHeader from "./UserHeader";
 import { ColorModeButton } from "ui";
@@ -47,15 +45,6 @@ const Header = ({ isOpen, onClose, onOpen }: HeaderProps) => {
 					</HStack>
 				</HStack>
 				<Flex direction={"row"} gap={"2"}>
-					<Link href={"#"} passHref>
-						<IconButton
-							variant={"ghost"}
-							size={"md"}
-							icon={<MdSearch size={"24"} />}
-							aria-label="search"
-						/>
-					</Link>
-					{/* Here should be change if the user is loged */}
 					<UserHeader />
 					<ShoppingCart />
 					<ColorModeButton

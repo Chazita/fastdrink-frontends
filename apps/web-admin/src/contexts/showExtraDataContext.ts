@@ -5,7 +5,7 @@ import {
 	RefetchOptions,
 	RefetchQueryFilters,
 } from "react-query";
-import { ProductDetails } from "shared/src/Product/ProductDetails";
+import { ProductDetails } from "shared/types/Product/ProductDetails";
 
 type ShowExtraDataType = {
 	showFormExtra: boolean;

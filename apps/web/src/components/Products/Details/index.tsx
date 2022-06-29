@@ -1,4 +1,4 @@
-import { ProductDetails } from "shared/src/types/Product/ProductDetails";
+import { ProductDetails } from "shared/types/Product/ProductDetails";
 
 import ProductDetailsAlcohol from "./ProductDetailsAlcohol";
 import ProductDetailsBeer from "./ProductDetailsBeer";

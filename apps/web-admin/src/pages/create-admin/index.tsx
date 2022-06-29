@@ -9,7 +9,6 @@ import {
 	InputGroup,
 	InputRightElement,
 	Stack,
-	Text,
 	useToast,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
@@ -19,7 +18,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 
-import ErrorReceiver from "shared/src/ErrorReceiver";
+import ErrorResponse from "shared/types/ErrorResponse";
 
 type CreateAdminForm = {
 	email: string;
@@ -60,7 +59,7 @@ const CreateAdmin = () => {
 				});
 			},
 			onError: (error: any) => {
-				const data = error.response.data as ErrorReceiver;
+				const data = error.response.data as ErrorResponse;
 				for (let key in data.errors) {
 					const value = data.errors[key];
 					toast({

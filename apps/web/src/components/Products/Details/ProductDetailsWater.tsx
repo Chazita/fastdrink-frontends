@@ -1,6 +1,6 @@
 import { Box, Text } from "@chakra-ui/react";
-import { ProductDetails } from "shared/src/types/Product/ProductDetails";
-import { capitalizeString } from "shared/src/utils/capitalizeString";
+import { ProductDetails } from "shared/types/Product/ProductDetails";
+import { capitalizeString } from "shared/utils/capitalizeString";
 
 type ProductDetailsWaterProps = {
 	product: ProductDetails;
