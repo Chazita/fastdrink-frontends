@@ -10,10 +10,20 @@ import {
 	AccordionButton,
 	AccordionIcon,
 	AccordionPanel,
+	Input,
+	InputGroup,
+	InputRightElement,
+	IconButton,
+	FormControl,
+	FormLabel,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction } from "react";
+import { useForm } from "react-hook-form";
+
+import { MdSearch } from "react-icons/md";
+
 import { useQuery } from "react-query";
 import { BaseType } from "shared/types";
 import { capitalizeStringUnderscore } from "shared/utils/capitalizeString";
@@ -21,16 +31,49 @@ import { capitalizeStringUnderscore } from "shared/utils/capitalizeString";
 type FilterContainerProps = {
 	setOrder: Dispatch<SetStateAction<string>>;
 	setBrand: Dispatch<SetStateAction<string>>;
+	setSearch: Dispatch<SetStateAction<string>>;
 };
 
-const FilterContainer = ({ setOrder, setBrand }: FilterContainerProps) => {
+type SearchForm = {
+	search: string;
+};
+
+const FilterContainer = ({
+	setOrder,
+	setBrand,
+	setSearch,
+}: FilterContainerProps) => {
 	const { data, isLoading, isFetching } = useQuery("brands", () => {
 		return axios.get<BaseType[]>("/Brand");
 	});
 	const router = useRouter();
 
+	const { register, handleSubmit } = useForm<SearchForm>();
+
+	const handleSearch = (data: SearchForm) => {
+		setSearch(data.search);
+	};
+
 	return (
-		<Box ml="1%">
+		<Box ml="1%" w={{ base: "100%", md: "20%", lg: "15%", xl: "10%" }}>
+			<Box as="form" mb="4" onSubmit={handleSubmit(handleSearch)}>
+				<FormControl>
+					<FormLabel>Buscar Producto</FormLabel>
+					<InputGroup>
+						<Input placeholder="Ej:Cerveza" {...register("search")} />
+						<InputRightElement>
+							<IconButton
+								type="submit"
+								variant="ghost"
+								isRound
+								size={"sm"}
+								aria-label="search"
+								icon={<MdSearch />}
+							/>
+						</InputRightElement>
+					</InputGroup>
+				</FormControl>
+			</Box>
 			<Accordion allowMultiple allowToggle>
 				<AccordionItem>
 					<h2>
