@@ -23,20 +23,22 @@ const UserMyOrders = ({ params }) => {
 	const router = useRouter();
 	const [page, setPage] = useState(+params.page);
 
-	const { data, isLoading } = useQuery("my-orders", () => {
+	const { data, isLoading, isError } = useQuery("my-orders", () => {
 		return axios.get<OrderPaginatedList>("/Order/my-orders", {
 			withCredentials: true,
 		});
 	});
-
-	console.log(data);
 
 	const handlePagination = (num: number) => {
 		router.push(`/order/${num}`, `/order/${num}`, { shallow: true });
 		setPage(num);
 	};
 
-	if (data === undefined && isLoading) {
+	if (isError) {
+		router.push("/login");
+	}
+
+	if (data === undefined || isLoading) {
 		return <>Loading</>;
 	}
 
