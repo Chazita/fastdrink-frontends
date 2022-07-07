@@ -15,12 +15,7 @@ import {
 	MenuDivider,
 } from "@chakra-ui/react";
 
-import {
-	MdExpandMore,
-	MdOutlineSettings,
-	MdOutlineAccountCircle,
-	MdLogout,
-} from "react-icons/md";
+import { MdExpandMore, MdOutlineSettings, MdLogout } from "react-icons/md";
 import { LinkItemsProps } from "types";
 
 import { useMutation, useQueryClient } from "react-query";

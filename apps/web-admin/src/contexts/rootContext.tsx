@@ -6,7 +6,8 @@ import DataContext, {
 	NecessaryData,
 	Container,
 } from "./dataContext";
-import UserContext, { UserInfo } from "./userContext";
+import UserContext from "./userContext";
+import { UserInfo } from "shared/types/UserInfo";
 
 import axios, { AxiosResponse } from "axios";
 import { Center, Spinner } from "@chakra-ui/react";
