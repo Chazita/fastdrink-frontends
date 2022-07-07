@@ -43,7 +43,7 @@ const SecondStep = ({
 			<SimpleGrid columns={{ base: 1, md: 2 }}>
 				<FormControl w={{ base: "100%", md: "90%" }}>
 					<FormLabel>Provincia</FormLabel>
-					<Input disabled {...register("province")} />
+					<Input disabled value={"Provincia de Buenos Aires"} />
 				</FormControl>
 
 				<FormControl

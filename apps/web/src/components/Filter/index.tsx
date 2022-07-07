@@ -55,7 +55,11 @@ const FilterContainer = ({
 	};
 
 	return (
-		<Box ml="1%" w={{ base: "100%", md: "20%", lg: "15%", xl: "10%" }}>
+		<Box
+			alignSelf={{ base: "center", md: "auto" }}
+			ml="1%"
+			w={{ base: "90%", md: "20%", lg: "15%", xl: "10%" }}
+		>
 			<Box as="form" mb="4" onSubmit={handleSubmit(handleSearch)}>
 				<FormControl>
 					<FormLabel>Buscar Producto</FormLabel>
