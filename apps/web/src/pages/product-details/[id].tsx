@@ -44,6 +44,13 @@ const ProductDetails = ({ params }) => {
 		["get-product", params.id],
 		() => {
 			return axios.get<ProductDetails>(`/Product/get-details/${params.id}`);
+		},
+		{
+			onSuccess: ({ data }) => {
+				if (data.stock <= 0) {
+					setCount(0);
+				}
+			},
 		}
 	);
 
@@ -60,7 +67,7 @@ const ProductDetails = ({ params }) => {
 						spacing={{ base: 8, md: 10 }}
 						py={{ base: 18, md: 24 }}
 					>
-						<Flex>
+						<Flex position={"relative"} textAlign="center">
 							<Image
 								src={product.photo.photoUrl}
 								alt=""
@@ -69,6 +76,20 @@ const ProductDetails = ({ params }) => {
 								w={"100%"}
 								h={{ base: "100%", sm: "400px", lg: "500px" }}
 							/>
+							<Box
+								color={"white"}
+								position="absolute"
+								display={product.stock <= 0 ? "auto" : "none"}
+								top="50%"
+								left="50%"
+								w="300px"
+								fontSize={"5xl"}
+								borderRadius={"xl"}
+								transform={"translate(-50%,-50%) rotate(-40deg);"}
+								backgroundColor="red"
+							>
+								<Text>Sin Stock</Text>
+							</Box>
 						</Flex>
 						<Stack spacing={{ base: 6, md: 10 }} justifyContent="center">
 							<Box>
@@ -90,7 +111,10 @@ const ProductDetails = ({ params }) => {
 									fontSize={{ base: "2xl", sm: "4xl", lg: "5xl" }}
 									fontWeight={450}
 								>
-									${(product.price * count).toFixed(2)}
+									$
+									{count === 0
+										? product.price.toFixed(2)
+										: (product.price * count).toFixed(2)}
 								</Heading>
 
 								<Text size="xl">
@@ -114,6 +138,7 @@ const ProductDetails = ({ params }) => {
 									</FormLabel>
 									<NumberInput
 										id="quantity"
+										isDisabled={product.stock <= 0}
 										value={count}
 										onChange={(value) => setCount(+value)}
 										min={0}

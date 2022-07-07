@@ -13,6 +13,7 @@ import {
 	NumberIncrementStepper,
 	NumberDecrementStepper,
 	Link as LinkChakra,
+	Box,
 } from "@chakra-ui/react";
 import { Product } from "shared/types";
 
@@ -45,8 +46,21 @@ const ProductCard = ({ item }: ProductCardProps) => {
 		>
 			<Flex>
 				<Link href={`/product-details/${item.id}`} passHref>
-					<LinkChakra>
+					<LinkChakra position={"relative"} textAlign="center">
 						<Image h={"8rem"} src={item.photo.photoUrl} alt="" />
+						<Box
+							color={"white"}
+							position="absolute"
+							display={item.stock <= 0 ? "auto" : "none"}
+							top="50%"
+							left="50%"
+							w="100px"
+							borderRadius={"xl"}
+							transform={"translate(-50%,-50%) rotate(-40deg);"}
+							backgroundColor="red"
+						>
+							<Text>Sin Stock</Text>
+						</Box>
 					</LinkChakra>
 				</Link>
 			</Flex>
@@ -71,6 +85,7 @@ const ProductCard = ({ item }: ProductCardProps) => {
 
 				<HStack>
 					<NumberInput
+						isDisabled={item.stock <= 0}
 						value={count}
 						onChange={(value) => {
 							if (+value > item.stock) {
@@ -117,7 +132,7 @@ const ProductCard = ({ item }: ProductCardProps) => {
 						colorScheme={"blue"}
 						aria-label="add-list"
 						icon={<MdAdd size={"25px"} />}
-						isDisabled={count > 0 ? false : true}
+						isDisabled={count > 0 && item.stock > 0 ? false : true}
 						onClick={() =>
 							dispatch({
 								payload: { product: item, count },
