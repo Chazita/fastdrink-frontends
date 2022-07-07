@@ -6,8 +6,9 @@ import {
 } from "@chakra-ui/react";
 import { useMutation } from "react-query";
 import axios from "axios";
-import { MdLogout, MdSettings } from "react-icons/md";
+import { MdLogout, MdSettings, MdShoppingCart } from "react-icons/md";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const UserMenuItems = (props: MenuListProps) => {
 	const router = useRouter();
@@ -24,7 +25,12 @@ const UserMenuItems = (props: MenuListProps) => {
 	);
 	return (
 		<MenuList {...props}>
-			<MenuItem icon={<MdSettings />}>Configuracion</MenuItem>
+			<Link href="/user/configuration" passHref>
+				<MenuItem icon={<MdSettings />}>Configuracion</MenuItem>
+			</Link>
+			<Link href="/user/my-orders/1" passHref>
+				<MenuItem icon={<MdShoppingCart />}>Mis ordernes</MenuItem>
+			</Link>
 			<MenuDivider />
 			<MenuItem onClick={() => logOutMutation.mutate()} icon={<MdLogout />}>
 				Cerrar Sesion
