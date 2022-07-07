@@ -32,7 +32,7 @@ const ProductCardInCart = ({ item }: ProductCardInCartProps) => {
 	return (
 		<Stack w="100%" height="10rem" direction="row" alignItems={"center"}>
 			<Flex>
-				<Image h={"8rem"} src={item.product.photos[0].photoUrl} alt="" />
+				<Image h={"8rem"} src={item.product.photo.photoUrl} alt="" />
 			</Flex>
 			<Stack
 				flex={1}
@@ -45,7 +45,7 @@ const ProductCardInCart = ({ item }: ProductCardInCartProps) => {
 					{item.product.name}
 				</Text>
 				<Text fontWeight={600} color={"gray.500"} fontSize="xs" mb={4}>
-					{item.product.volumen}ml
+					{item.product.volume}ml
 				</Text>
 				<Text fontSize={"sm"}>
 					${count === 0 ? item.product.price : item.product.price * count}

@@ -62,7 +62,7 @@ const ProductDetails = ({ params }) => {
 					>
 						<Flex>
 							<Image
-								src={product.photos[0].photoUrl}
+								src={product.photo.photoUrl}
 								alt=""
 								fit={"cover"}
 								align="center"
@@ -80,7 +80,7 @@ const ProductDetails = ({ params }) => {
 									{product.name}
 								</Heading>
 								<Text color={"gray.400"} fontWeight={300}>
-									{product.volumen}ml
+									{product.volume}ml
 								</Text>
 							</Box>
 

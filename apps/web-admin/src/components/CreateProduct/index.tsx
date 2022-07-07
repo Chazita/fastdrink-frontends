@@ -36,12 +36,12 @@ import { ProductPaginatedList } from "shared/types/Product/ProductPaginatedList"
 type CreateProductForm = {
 	name: string;
 	price: number;
-	volumen: number;
+	volume: number;
 	stock: number;
 	category: number;
 	brand: number;
 	container: number;
-	photos: File[];
+	photo: File;
 };
 
 type CreateProductProps = {
@@ -60,14 +60,12 @@ const CreateProduct = ({ refetch }: CreateProductProps) => {
 			const productData = new FormData();
 			productData.append("name", data.name);
 			productData.append("price", data.price.toString());
-			productData.append("volumen", data.volumen.toString());
+			productData.append("volume", data.volume.toString());
 			productData.append("stock", data.stock.toString());
 			productData.append("categoryId", data.category.toString());
 			productData.append("brandId", data.brand.toString());
 			productData.append("containerId", data.container.toString());
-			Array.from(data.photos).map((photo) => {
-				productData.append("photos", photo);
-			});
+			productData.append("photo", data.photo);
 			return axios.post("/Product", productData, {
 				withCredentials: true,
 			});
@@ -139,12 +137,12 @@ const CreateProduct = ({ refetch }: CreateProductProps) => {
 						</FormErrorMessage>
 					</FormControl>
 
-					<FormControl isInvalid={errors.volumen ? true : false}>
-						<FormLabel htmlFor="volumen">Volumen</FormLabel>
+					<FormControl isInvalid={errors.volume ? true : false}>
+						<FormLabel htmlFor="volume">Volumen</FormLabel>
 						<NumberInput min={0}>
 							<NumberInputField
-								id="volumen"
-								{...register("volumen", {
+								id="volume"
+								{...register("volume", {
 									required: {
 										value: true,
 										message: "El volumen es necesario.",
@@ -157,7 +155,7 @@ const CreateProduct = ({ refetch }: CreateProductProps) => {
 							</NumberInputStepper>
 						</NumberInput>
 						<FormErrorMessage>
-							{errors.volumen ? errors.volumen.message : ""}
+							{errors.volume ? errors.volume.message : ""}
 						</FormErrorMessage>
 					</FormControl>
 
@@ -249,8 +247,8 @@ const CreateProduct = ({ refetch }: CreateProductProps) => {
 					</FormControl>
 
 					<FormControl>
-						<FormLabel>Agregar photos</FormLabel>
-						<input type="file" multiple {...register("photos")} />
+						<FormLabel>Agregar photo</FormLabel>
+						<input type="file" {...register("photo")} />
 					</FormControl>
 				</ModalBody>
 

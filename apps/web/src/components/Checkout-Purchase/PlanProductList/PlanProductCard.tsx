@@ -9,7 +9,7 @@ const PlanProductCard = ({ item }: PlanProductCardProps) => {
 	return (
 		<Stack w="100%" height="10rem" direction="row" padding={4}>
 			<Flex position={"relative"}>
-				<Image h={"8rem"} src={item.product.photos[0].photoUrl} alt="" />
+				<Image h={"8rem"} src={item.product.photo.photoUrl} alt="" />
 				<Box
 					as="span"
 					color="white"
@@ -36,7 +36,7 @@ const PlanProductCard = ({ item }: PlanProductCardProps) => {
 					{item.product.name}
 				</Text>
 				<Text fontWeight={600} color={"gray.500"} fontSize="xs" mb={4}>
-					{item.product.volumen}ml
+					{item.product.volume}ml
 				</Text>
 				<Text fontSize={"sm"}>
 					$

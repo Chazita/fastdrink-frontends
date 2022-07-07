@@ -16,7 +16,7 @@ const ProductDetailsSoda = ({ product }: ProductDetailsSodaProps) => {
 			<Box>
 				<Text color={"gray.400"}>Volumen</Text>
 				<Text fontSize={"xl"} fontWeight={500} color={"blue.500"}>
-					{product.volumen}ml
+					{product.volume}ml
 				</Text>
 			</Box>
 			<Box>

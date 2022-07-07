@@ -98,6 +98,7 @@ const Products = ({ params }) => {
 						pagesCount={data.data.totalPages}
 						page={page}
 						handlePagination={handlePagination}
+						mb="2"
 					/>
 				</Container>
 			</Flex>

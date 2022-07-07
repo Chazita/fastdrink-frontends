@@ -65,7 +65,7 @@ const TableProduct = ({ items, page, showDeleted }: TableProductProps) => {
 							<Tr key={product.id}>
 								<Td>
 									<Stack direction={["column", "row"]} alignItems="center">
-										<Image h="20" src={product.photos[0].photoUrl} alt="" />
+										<Image h="20" src={product.photo.photoUrl} alt="" />
 										<Text fontSize="20px" fontWeight="bold">
 											{product.name}
 										</Text>

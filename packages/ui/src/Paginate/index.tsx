@@ -7,16 +7,21 @@ import {
 	PaginationPrevious,
 	usePagination,
 } from "@ajna/pagination";
-import { useColorModeValue } from "@chakra-ui/react";
+import { FlexProps, useColorModeValue } from "@chakra-ui/react";
 import { MdNavigateNext, MdNavigateBefore } from "react-icons/md";
 
-type PaginationProps = {
+interface PaginationProps extends FlexProps {
 	pagesCount: number;
 	page: number;
 	handlePagination: (num: number) => void;
-};
+}
 
-const Paginate = ({ pagesCount, page, handlePagination }: PaginationProps) => {
+const Paginate = ({
+	pagesCount,
+	page,
+	handlePagination,
+	...props
+}: PaginationProps) => {
 	const { pages, currentPage, setCurrentPage } = usePagination({
 		pagesCount,
 		initialState: { currentPage: page },
@@ -34,7 +39,7 @@ const Paginate = ({ pagesCount, page, handlePagination }: PaginationProps) => {
 			pagesCount={pagesCount}
 			onPageChange={setCurrentPage}
 		>
-			<PaginationContainer justifyContent={"center"} mt="2">
+			<PaginationContainer justifyContent={"center"} mt="2" {...props}>
 				<PaginationPrevious
 					bg={bg}
 					onClick={() => handlePagination(currentPage - 1)}

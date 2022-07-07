@@ -5,10 +5,10 @@ export interface Product {
 	id: string;
 	name: string;
 	price: number;
-	volumen: number;
+	volume: number;
 	stock: number;
 	discount?: number;
-	photos?: ProductPhoto[];
+	photo: ProductPhoto;
 	category: BaseType;
 	container: BaseType;
 	brand: BaseType;

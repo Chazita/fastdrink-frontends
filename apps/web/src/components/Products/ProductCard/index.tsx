@@ -46,7 +46,7 @@ const ProductCard = ({ item }: ProductCardProps) => {
 			<Flex>
 				<Link href={`/product-details/${item.id}`} passHref>
 					<LinkChakra>
-						<Image h={"8rem"} src={item.photos[0].photoUrl} alt="" />
+						<Image h={"8rem"} src={item.photo.photoUrl} alt="" />
 					</LinkChakra>
 				</Link>
 			</Flex>
@@ -63,7 +63,7 @@ const ProductCard = ({ item }: ProductCardProps) => {
 					</LinkChakra>
 				</Link>
 				<Text fontWeight={600} color={"gray.500"} fontSize="xs" mb={4}>
-					{item.volumen}ml
+					{item.volume}ml
 				</Text>
 				<Text fontSize={"sm"}>
 					${count === 0 ? item.price : item.price * count}

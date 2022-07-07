@@ -49,7 +49,7 @@ type DetailsForm = {
 	id: string;
 	name: string;
 	price: number;
-	volumen: number;
+	volume: number;
 	stock: number;
 	discount?: number;
 	categoryId: number;
@@ -106,7 +106,7 @@ const ProductDetails = () => {
 		setValue("name", product.name);
 		setValue("price", product.price);
 		setValue("stock", product.stock);
-		setValue("volumen", product.volumen);
+		setValue("volume", product.volume);
 		setValue("brandId", product.brand.id);
 		setValue("categoryId", product.category.id);
 		setValue("containerId", product.container.id);
@@ -116,7 +116,7 @@ const ProductDetails = () => {
 			<ModalContent>
 				<ModalCloseButton />
 				<ModalBody>
-					<Image src={product.photos[0].photoUrl} alt="" />
+					<Image src={product.photo.photoUrl} alt="" />
 					{showFormDetails ? (
 						<Stack as="form" onSubmit={handleSubmit(updateProductHandle)}>
 							<FormControl isInvalid={errors.name ? true : false}>
@@ -157,12 +157,12 @@ const ProductDetails = () => {
 								<FormErrorMessage>{errors.price?.message}</FormErrorMessage>
 							</FormControl>
 
-							<FormControl inValid={errors.volumen ? true : false}>
+							<FormControl inValid={errors.volume ? true : false}>
 								<FormLabel>Volumen</FormLabel>
 								<NumberInput min={0}>
 									<NumberInputField
-										id="volumen"
-										{...register("volumen", {
+										id="volume"
+										{...register("volume", {
 											required: {
 												value: true,
 												message: "El volumen es necesario.",
@@ -174,7 +174,7 @@ const ProductDetails = () => {
 										<NumberDecrementStepper />
 									</NumberInputStepper>
 								</NumberInput>
-								<FormErrorMessage> {errors.volumen?.message} </FormErrorMessage>
+								<FormErrorMessage> {errors.volume?.message} </FormErrorMessage>
 							</FormControl>
 
 							<FormControl isInvalid={errors.stock ? true : false}>
@@ -293,7 +293,7 @@ const ProductDetails = () => {
 										<Text as="span" fontWeight="bold">
 											Volumen:
 										</Text>{" "}
-										{product.volumen}
+										{product.volume}
 									</ListItem>
 
 									<ListItem>
