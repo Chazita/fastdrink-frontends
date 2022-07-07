@@ -1,31 +1,70 @@
-import { useContext, useState } from "react";
-import UserContext from "contexts/userContext";
+import { useState } from "react";
 import { useMutation } from "react-query";
 
 import {
 	Button,
 	Flex,
 	FormControl,
+	FormErrorMessage,
 	FormLabel,
 	Input,
 	Stack,
 	Text,
+	useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 
+import ErrorResponse from "shared/types/ErrorResponse";
+
 type PasswordForm = {
-	oldPassword: string;
+	password: string;
 	newPassword: string;
 	confirmNewPassword: string;
 };
 
-const ChangePassword = () => {
-	const [edit, setEdit] = useState(false);
+type ChangePasswordProps = {
+	userRefetch: () => any;
+};
 
-	const changeMutation = useMutation("change-name", (data: PasswordForm) => {
-		return axios.post("/User/change-password", data, { withCredentials: true });
-	});
+const ChangePassword = ({ userRefetch }: ChangePasswordProps) => {
+	const [edit, setEdit] = useState(false);
+	const toast = useToast();
+	const changeMutation = useMutation(
+		"change-name",
+		(data: PasswordForm) => {
+			return axios.post("/User/change-password", data, {
+				withCredentials: true,
+			});
+		},
+		{
+			onSuccess: () => {
+				setEdit(false);
+				userRefetch();
+				toast({
+					title: "Exito",
+					description: "Se ha cambiado al contraseña.",
+					duration: 5000,
+					isClosable: true,
+					status: "success",
+				});
+			},
+			onError: (error: any) => {
+				const data = error.response.data as ErrorResponse;
+
+				for (let key in data.errors) {
+					const value = data.errors[key];
+					toast({
+						title: key,
+						description: value,
+						status: "error",
+						duration: 5000,
+						isClosable: true,
+					});
+				}
+			},
+		}
+	);
 
 	const {
 		register,
@@ -49,11 +88,11 @@ const ChangePassword = () => {
 					w={["100%", "90%", "80%", "60%", "40%"]}
 					onSubmit={handleSubmit(submitChangePassword)}
 				>
-					<FormControl>
+					<FormControl isInvalid={errors.password ? true : false}>
 						<FormLabel>Antigua Contraseña</FormLabel>
 						<Input
 							type="password"
-							{...register("oldPassword", {
+							{...register("password", {
 								required: {
 									value: true,
 									message: "La contraseña es requerida.",
@@ -68,8 +107,12 @@ const ChangePassword = () => {
 								},
 							})}
 						/>
+						<FormErrorMessage>
+							{errors.password ? errors.password.message : ""}
+						</FormErrorMessage>
 					</FormControl>
-					<FormControl>
+
+					<FormControl isInvalid={errors.newPassword ? true : false}>
 						<FormLabel>Nueva Contraseña</FormLabel>
 						<Input
 							type="password"
@@ -88,8 +131,12 @@ const ChangePassword = () => {
 								},
 							})}
 						/>
+						<FormErrorMessage>
+							{errors.newPassword ? errors.newPassword.message : ""}
+						</FormErrorMessage>
 					</FormControl>
-					<FormControl>
+
+					<FormControl isInvalid={errors.confirmNewPassword ? true : false}>
 						<FormLabel>Confirmar nueva contraseña</FormLabel>
 						<Input
 							type="password"
@@ -108,7 +155,13 @@ const ChangePassword = () => {
 								},
 							})}
 						/>
+						<FormErrorMessage>
+							{errors.confirmNewPassword
+								? errors.confirmNewPassword.message
+								: ""}
+						</FormErrorMessage>
 					</FormControl>
+
 					<Stack direction={"row"}>
 						<Button
 							colorScheme={"red"}
@@ -117,7 +170,12 @@ const ChangePassword = () => {
 						>
 							Cancelar
 						</Button>
-						<Button type="submit" colorScheme={"green"} w={"100%"}>
+						<Button
+							isLoading={changeMutation.isLoading}
+							type="submit"
+							colorScheme={"green"}
+							w={"100%"}
+						>
 							Guardar
 						</Button>
 					</Stack>

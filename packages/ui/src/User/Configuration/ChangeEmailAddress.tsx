@@ -11,21 +11,62 @@ import {
 	Input,
 	Stack,
 	Button,
+	FormErrorMessage,
+	useToast,
 } from "@chakra-ui/react";
-import UserContext from "contexts/userContext";
+import { UserInfo } from "shared/types/UserInfo";
+import ErrorResponse from "shared/types/ErrorResponse";
 
 type EmailForm = {
 	newEmail: string;
 	password: string;
 };
 
-const ChangeEmailAddress = () => {
-	const [edit, setEdit] = useState(false);
-	const { userInfo, userRefetch } = useContext(UserContext);
+type ChangeEmailAddressProps = {
+	userInfo: UserInfo;
+	userRefetch: () => any;
+};
 
-	const changeMutation = useMutation("change-name", (data: EmailForm) => {
-		return axios.post("/User/change-email", data, { withCredentials: true });
-	});
+const ChangeEmailAddress = ({
+	userInfo,
+	userRefetch,
+}: ChangeEmailAddressProps) => {
+	const [edit, setEdit] = useState(false);
+	const toast = useToast();
+
+	const changeMutation = useMutation(
+		"change-name",
+		(data: EmailForm) => {
+			return axios.post("/User/change-email", data, { withCredentials: true });
+		},
+		{
+			onSuccess: () => {
+				setEdit(false);
+				userRefetch();
+				toast({
+					title: "Se ha cambiado exitosamente",
+					description: "Necesitas inicar session de nuevo",
+					status: "success",
+					duration: 5000,
+					isClosable: true,
+				});
+			},
+			onError: (error: any) => {
+				const data = error.response.data as ErrorResponse;
+
+				for (let key in data.errors) {
+					const value = data.errors[key];
+					toast({
+						title: key,
+						description: value,
+						status: "error",
+						duration: 5000,
+						isClosable: true,
+					});
+				}
+			},
+		}
+	);
 
 	const {
 		register,
@@ -64,8 +105,12 @@ const ChangeEmailAddress = () => {
 								},
 							})}
 						/>
+						<FormErrorMessage>
+							{errors.newEmail ? errors.newEmail.message : ""}
+						</FormErrorMessage>
 					</FormControl>
-					<FormControl>
+
+					<FormControl isInvalid={errors.password ? true : false}>
 						<FormLabel>Contraseña</FormLabel>
 						<Input
 							type="password"
@@ -84,7 +129,11 @@ const ChangeEmailAddress = () => {
 								},
 							})}
 						/>
+						<FormErrorMessage>
+							{errors.password ? errors.password.message : ""}
+						</FormErrorMessage>
 					</FormControl>
+
 					<Stack direction={"row"}>
 						<Button
 							colorScheme={"red"}
@@ -93,7 +142,12 @@ const ChangeEmailAddress = () => {
 						>
 							Cancelar
 						</Button>
-						<Button type="submit" colorScheme={"green"} w={"100%"}>
+						<Button
+							isLoading={changeMutation.isLoading}
+							type="submit"
+							colorScheme={"green"}
+							w={"100%"}
+						>
 							Guardar
 						</Button>
 					</Stack>

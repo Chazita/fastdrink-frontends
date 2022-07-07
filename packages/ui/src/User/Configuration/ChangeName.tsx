@@ -2,17 +2,21 @@ import {
 	Button,
 	Flex,
 	FormControl,
-	FormHelperText,
+	FormErrorMessage,
 	FormLabel,
 	Input,
 	Stack,
 	Text,
+	useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
-import UserContext from "contexts/userContext";
-import { useContext, useState } from "react";
+
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
+
+import { UserInfo } from "shared/types/UserInfo";
+import ErrorResponse from "shared/types/ErrorResponse";
 
 type NameForm = {
 	lastName: string;
@@ -20,13 +24,48 @@ type NameForm = {
 	password: string;
 };
 
-const ChangeName = () => {
-	const [edit, setEdit] = useState(false);
-	const { userInfo, userRefetch } = useContext(UserContext);
+type ChangeNameProps = {
+	userInfo: UserInfo;
+	userRefetch: () => any;
+};
 
-	const changeMutation = useMutation("change-name", (data: NameForm) => {
-		return axios.post("/User/change-name", data, { withCredentials: true });
-	});
+const ChangeName = ({ userInfo, userRefetch }: ChangeNameProps) => {
+	const [edit, setEdit] = useState(false);
+	const toast = useToast();
+
+	const changeMutation = useMutation(
+		"change-name",
+		(data: NameForm) => {
+			return axios.post("/User/change-name", data, { withCredentials: true });
+		},
+		{
+			onSuccess: () => {
+				userRefetch();
+				toast({
+					title: "Exito",
+					description: "Se han cambiado los nombres.",
+					status: "success",
+					duration: 5000,
+					isClosable: true,
+				});
+				setEdit(false);
+			},
+			onError: (error: any) => {
+				const data = error.response.data as ErrorResponse;
+
+				for (let key in data.errors) {
+					const value = data.errors[key];
+					toast({
+						title: key,
+						description: value,
+						status: "error",
+						duration: 5000,
+						isClosable: true,
+					});
+				}
+			},
+		}
+	);
 
 	const {
 		register,
@@ -58,7 +97,7 @@ const ChangeName = () => {
 					w={["100%", "90%", "80%", "60%", "40%"]}
 					onSubmit={handleSubmit(submitChangeName)}
 				>
-					<FormControl>
+					<FormControl isInvalid={errors.lastName ? true : false}>
 						<FormLabel>Apellido</FormLabel>
 						<Input
 							{...register("lastName", {
@@ -72,9 +111,12 @@ const ChangeName = () => {
 								},
 							})}
 						/>
-						<FormHelperText></FormHelperText>
+						<FormErrorMessage>
+							{errors.lastName ? errors.lastName.message : ""}
+						</FormErrorMessage>
 					</FormControl>
-					<FormControl>
+
+					<FormControl isInvalid={errors.firstName ? true : false}>
 						<FormLabel>Nombre</FormLabel>
 						<Input
 							{...register("firstName", {
@@ -88,9 +130,12 @@ const ChangeName = () => {
 								},
 							})}
 						/>
-						<FormHelperText></FormHelperText>
+						<FormErrorMessage>
+							{errors.firstName ? errors.firstName.message : ""}
+						</FormErrorMessage>
 					</FormControl>
-					<FormControl>
+
+					<FormControl isInvalid={errors.password ? true : false}>
 						<FormLabel>Contraseña</FormLabel>
 						<Input
 							type="password"
@@ -109,8 +154,11 @@ const ChangeName = () => {
 								},
 							})}
 						/>
-						<FormHelperText></FormHelperText>
+						<FormErrorMessage>
+							{errors.password ? errors.password.message : ""}
+						</FormErrorMessage>
 					</FormControl>
+
 					<Stack direction={"row"}>
 						<Button
 							colorScheme={"red"}
@@ -119,7 +167,12 @@ const ChangeName = () => {
 						>
 							Cancelar
 						</Button>
-						<Button type="submit" colorScheme={"green"} w={"100%"}>
+						<Button
+							isLoading={changeMutation.isLoading}
+							type="submit"
+							colorScheme={"green"}
+							w={"100%"}
+						>
 							Guardar
 						</Button>
 					</Stack>
