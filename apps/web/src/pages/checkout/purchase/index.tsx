@@ -176,7 +176,13 @@ const CheckoutPurchase = () => {
 						padding={"3"}
 					>
 						<StepperBox
-							title={loginOrCreate ? "1.Crear cuenta" : "1.Iniciar Sesion"}
+							title={
+								userInfo
+									? ""
+									: loginOrCreate
+									? "1.Crear cuenta"
+									: "1.Iniciar Sesion"
+							}
 							mb="4"
 							isActive={activeStep === 1}
 						>
