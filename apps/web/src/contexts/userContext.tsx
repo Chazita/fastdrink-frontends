@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { createContext } from "react";
+import { UserInfo } from "shared/types/UserInfo";
 
 import {
 	QueryObserverResult,
@@ -7,13 +8,6 @@ import {
 	RefetchQueryFilters,
 	useQuery,
 } from "react-query";
-
-export type UserInfo = {
-	id: number;
-	email: string;
-	firstName: string;
-	lastName: string;
-};
 
 export type UserContextType = {
 	userInfo: UserInfo | undefined;
