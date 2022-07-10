@@ -21,11 +21,8 @@
 		"react-dom": "17.0.2",
 		"react-hook-form": "^7.25.3",
 		"react-icons": "^4.3.1",
-		"react-paginate": "^8.1.2",
 		"react-query": "^3.34.16",
-		"react-slick": "^0.28.1",
 		"shared": "*",
-		"slick-carousel": "^1.8.1",
 		"ui": "*"
 	},
 	"devDependencies": {

@@ -16,7 +16,7 @@
 To build all apps and packages, run the following command:
 
 ```
-cd my-turborepo
+cd fastdrink-frontends
 yarn run build
 ```
 
@@ -25,7 +25,7 @@ yarn run build
 To develop all apps and packages, run the following command:
 
 ```
-cd my-turborepo
+cd fastdrink-frontends
 yarn run dev
 ```
 
@@ -36,7 +36,7 @@ Turborepo can use a technique known as [Remote Caching (Beta)](https://turborepo
 By default, Turborepo will cache locally. To enable Remote Caching (Beta) you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
 
 ```
-cd my-turborepo
+cd fastdrink-frontends
 npx turbo login
 ```
 

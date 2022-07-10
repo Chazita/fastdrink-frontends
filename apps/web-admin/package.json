@@ -22,17 +22,13 @@
 		"react-dom": "17.0.2",
 		"react-hook-form": "^7.25.3",
 		"react-icons": "^4.3.1",
-		"react-paginate": "^8.1.2",
 		"react-query": "^3.34.16",
-		"react-slick": "^0.28.1",
 		"shared": "*",
-		"slick-carousel": "^1.8.1",
 		"ui": "*"
 	},
 	"devDependencies": {
 		"@types/node": "^17.0.12",
 		"@types/react": "17.0.37",
-		"@types/react-slick": "^0.23.8",
 		"config": "*",
 		"cypress": "^9.5.3",
 		"eslint": "7.32.0",
