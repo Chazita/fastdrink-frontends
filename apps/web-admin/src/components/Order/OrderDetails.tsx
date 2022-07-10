@@ -199,7 +199,7 @@ const OrderDetails = ({ isOpen, onClose, order }: OrderDetailsProps) => {
 									onChange={(e) => handleStatus(e.target.value)}
 									defaultValue={order.orderStatus}
 								>
-									<option value="pending">Pendiente</option>
+									<option value="Pending">Pendiente</option>
 									<option value="Shipped">Enviado</option>
 									<option value="Completed">Completado</option>
 									<option value="Canceled">Cancelado</option>

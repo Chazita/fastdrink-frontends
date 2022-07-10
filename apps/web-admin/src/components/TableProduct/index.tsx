@@ -13,6 +13,7 @@ import {
 	IconButton,
 	Badge,
 	Stack,
+	Box,
 } from "@chakra-ui/react";
 import { MdDelete, MdOutlineRestore } from "react-icons/md";
 
@@ -47,7 +48,7 @@ const TableProduct = ({ items, page, showDeleted }: TableProductProps) => {
 	}
 
 	return (
-		<>
+		<Box overflowX={"hidden"}>
 			<Table>
 				<Thead>
 					<Tr>
@@ -148,10 +149,11 @@ const TableProduct = ({ items, page, showDeleted }: TableProductProps) => {
 					})}
 				</Tbody>
 			</Table>
+
 			<SoftDeleteModal />
 			<RecoverModal />
 			<HardDeleteModal />
-		</>
+		</Box>
 	);
 };
 
