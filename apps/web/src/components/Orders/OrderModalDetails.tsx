@@ -18,12 +18,14 @@ import {
 	ModalFooter,
 	Button,
 } from "@chakra-ui/react";
+import axios from "axios";
 
 import { useState } from "react";
+import { useMutation, useQueryClient } from "react-query";
 
 import { Order } from "shared/types/Order/Order";
 import { capitalizeString } from "shared/utils/capitalizeString";
-import OrderStatusBadge from "./OrderStatusBadge";
+import OrderStatusBadge from "ui/src/OrderStatusBadge";
 
 type OrderModalDetailsProps = {
 	order: Order;
@@ -37,7 +39,29 @@ const OrderModalDetails = ({
 	onClose,
 }: OrderModalDetailsProps) => {
 	const [cancelOrder, setCancelOrder] = useState(false);
+	const queryClient = useQueryClient();
+
+	const cancelMutation = useMutation(
+		"cancel-order",
+		() => {
+			return axios.delete("/Order/modify-status", {
+				withCredentials: true,
+				data: { orderId: order.id, orderStatus: "Canceled" },
+			});
+		},
+		{
+			onSuccess: () => {
+				queryClient.invalidateQueries("my-orders");
+			},
+		}
+	);
+
 	const created = new Date(order.created);
+
+	const handleCancelation = () => {
+		cancelMutation.mutate();
+		setCancelOrder(false);
+	};
 
 	return (
 		<Modal isOpen={isOpen} onClose={onClose}>
@@ -160,7 +184,7 @@ const OrderModalDetails = ({
 								</Button>
 								<Button
 									w="20%"
-									onClick={() => setCancelOrder(false)}
+									onClick={() => handleCancelation()}
 									colorScheme={"red"}
 								>
 									Si
