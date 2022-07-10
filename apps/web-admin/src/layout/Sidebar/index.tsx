@@ -1,4 +1,4 @@
-import { MdTopic, MdHome, MdPersonAddAlt1 } from "react-icons/md";
+import { MdTopic, MdHome, MdPersonAddAlt1, MdListAlt } from "react-icons/md";
 import { LinkItemsProps } from "types/LinkItemsProps";
 import { Box, Text, Flex, BoxProps, CloseButton } from "@chakra-ui/react";
 
@@ -12,6 +12,7 @@ export const LinkItems: LinkItemsProps[] = [
 	{ name: "Inicio", icon: MdHome, path: "/" },
 	{ name: "Crear Admins", icon: MdPersonAddAlt1, path: "/create-admin" },
 	{ name: "Productos", icon: MdTopic, path: "/products/1" },
+	{ name: "Ordenes", icon: MdListAlt, path: "/orders/1" },
 	{ name: "Data Extra", icon: MdTopic, path: "/extra-data" },
 ];
 

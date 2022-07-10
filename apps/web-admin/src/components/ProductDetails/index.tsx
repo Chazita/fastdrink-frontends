@@ -157,7 +157,7 @@ const ProductDetails = () => {
 								<FormErrorMessage>{errors.price?.message}</FormErrorMessage>
 							</FormControl>
 
-							<FormControl inValid={errors.volume ? true : false}>
+							<FormControl isInvalid={errors.volume ? true : false}>
 								<FormLabel>Volumen</FormLabel>
 								<NumberInput min={0}>
 									<NumberInputField
