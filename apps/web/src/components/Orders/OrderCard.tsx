@@ -12,7 +12,7 @@ import {
 
 import { Order } from "shared/types/Order/Order";
 import OrderModalDetails from "./OrderModalDetails";
-import OrderStatusBadge from "./OrderStatusBadge";
+import OrderStatusBadge from "ui/src/OrderStatusBadge";
 
 type OrderCardProps = {
 	order: Order;
