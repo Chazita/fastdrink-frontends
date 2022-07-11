@@ -4,7 +4,7 @@ import {
 	ChangeEmailAddress,
 	ChangeName,
 	ChangePassword,
-} from "./src/User/Configuration";
+} from "../../apps/web/src/components/UserConfiguration";
 
 export {
 	Paginate,

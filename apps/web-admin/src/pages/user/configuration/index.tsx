@@ -5,7 +5,7 @@ import {
 	ChangeName,
 	ChangePassword,
 	ChangeEmailAddress,
-} from "ui/src/User/Configuration";
+} from "components/UserConfiguration";
 
 const UserConfiguration = () => {
 	const { userInfo, userRefetch } = useContext(UserContext);

@@ -23,7 +23,6 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useMutation } from "react-query";
 import axios from "axios";
 import { UserContext } from "contexts/userContext";
-import ErrorResponse from "shared/types/ErrorResponse";
 
 type LoginForm = {
 	email: string;
@@ -34,7 +33,7 @@ const Login = () => {
 	const router = useRouter();
 	const toast = useToast();
 	const [showPassword, setShowPassword] = useState(false);
-	const { userRefetch, userInfo } = useContext(UserContext);
+	const { userRefetch, userInfo, isLoading } = useContext(UserContext);
 	const loginMutation = useMutation(
 		"login",
 		(data: LoginForm) => {
@@ -46,7 +45,7 @@ const Login = () => {
 				router.push("/");
 			},
 			onError: (error: any) => {
-				const data = error.response.data as ErrorResponse;
+				const data = error.response.data;
 				for (let key in data.errors) {
 					const value = data.errors[key];
 					toast({
@@ -62,8 +61,10 @@ const Login = () => {
 	);
 
 	useEffect(() => {
-		if (userInfo !== undefined) router.push("/");
-	}, [userInfo]);
+		if (userInfo !== undefined && !isLoading) {
+			router.push("/");
+		}
+	});
 
 	const {
 		register,

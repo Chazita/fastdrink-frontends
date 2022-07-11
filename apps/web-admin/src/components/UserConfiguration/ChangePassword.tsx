@@ -15,7 +15,7 @@ import {
 import axios from "axios";
 import { useForm } from "react-hook-form";
 
-import ErrorResponse from "shared/types/ErrorResponse";
+import { ApiErrorResponse } from "shared/types/ApiErrorResponse";
 
 type PasswordForm = {
 	password: string;
@@ -50,7 +50,7 @@ const ChangePassword = ({ userRefetch }: ChangePasswordProps) => {
 				});
 			},
 			onError: (error: any) => {
-				const data = error.response.data as ErrorResponse;
+				const data = error.response.data as ApiErrorResponse;
 
 				for (let key in data.errors) {
 					const value = data.errors[key];

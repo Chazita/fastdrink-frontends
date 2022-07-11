@@ -22,8 +22,6 @@ import axios from "axios";
 
 import UserContext from "contexts/userContext";
 
-import ErrorResponse from "shared/types/ErrorResponse";
-
 type LoginForm = {
 	email: string;
 	password: string;
@@ -50,7 +48,7 @@ export default function Login() {
 				userRefetch();
 			},
 			onError: (error: any) => {
-				const data = error.response.data as ErrorResponse;
+				const data = error.response.data;
 				for (let key in data.errors) {
 					const value = data.errors[key];
 					toast({

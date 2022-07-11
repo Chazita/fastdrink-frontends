@@ -15,7 +15,7 @@ import {
 	useToast,
 } from "@chakra-ui/react";
 import { UserInfo } from "shared/types/UserInfo";
-import ErrorResponse from "shared/types/ErrorResponse";
+import { ApiErrorResponse } from "shared/types/ApiErrorResponse";
 
 type EmailForm = {
 	newEmail: string;
@@ -52,7 +52,7 @@ const ChangeEmailAddress = ({
 				});
 			},
 			onError: (error: any) => {
-				const data = error.response.data as ErrorResponse;
+				const data = error.response.data as ApiErrorResponse;
 
 				for (let key in data.errors) {
 					const value = data.errors[key];

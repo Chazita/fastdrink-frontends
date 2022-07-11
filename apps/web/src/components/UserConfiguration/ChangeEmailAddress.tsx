@@ -1,57 +1,58 @@
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { useMutation } from "react-query";
+
 import {
-	Button,
 	Flex,
+	Text,
 	FormControl,
-	FormErrorMessage,
 	FormLabel,
 	Input,
 	Stack,
-	Text,
+	Button,
+	FormErrorMessage,
 	useToast,
 } from "@chakra-ui/react";
-import axios from "axios";
-
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
-
 import { UserInfo } from "shared/types/UserInfo";
-import ErrorResponse from "shared/types/ErrorResponse";
+import { ApiErrorResponse } from "shared/types/ApiErrorResponse";
 
-type NameForm = {
-	lastName: string;
-	firstName: string;
+type EmailForm = {
+	newEmail: string;
 	password: string;
 };
 
-type ChangeNameProps = {
+type ChangeEmailAddressProps = {
 	userInfo: UserInfo;
 	userRefetch: () => any;
 };
 
-const ChangeName = ({ userInfo, userRefetch }: ChangeNameProps) => {
+const ChangeEmailAddress = ({
+	userInfo,
+	userRefetch,
+}: ChangeEmailAddressProps) => {
 	const [edit, setEdit] = useState(false);
 	const toast = useToast();
 
 	const changeMutation = useMutation(
 		"change-name",
-		(data: NameForm) => {
-			return axios.post("/User/change-name", data, { withCredentials: true });
+		(data: EmailForm) => {
+			return axios.post("/User/change-email", data, { withCredentials: true });
 		},
 		{
 			onSuccess: () => {
+				setEdit(false);
 				userRefetch();
 				toast({
-					title: "Exito",
-					description: "Se han cambiado los nombres.",
+					title: "Se ha cambiado exitosamente",
+					description: "Necesitas inicar session de nuevo",
 					status: "success",
 					duration: 5000,
 					isClosable: true,
 				});
-				setEdit(false);
 			},
 			onError: (error: any) => {
-				const data = error.response.data as ErrorResponse;
+				const data = error.response.data as ApiErrorResponse;
 
 				for (let key in data.errors) {
 					const value = data.errors[key];
@@ -70,68 +71,42 @@ const ChangeName = ({ userInfo, userRefetch }: ChangeNameProps) => {
 	const {
 		register,
 		handleSubmit,
-		setValue,
 		formState: { errors },
-	} = useForm<NameForm>();
+	} = useForm<EmailForm>();
 
-	if (userInfo === undefined) {
-		return <>loading..</>;
-	}
-
-	setValue("firstName", userInfo.firstName);
-	setValue("lastName", userInfo.lastName);
-
-	const submitChangeName = (data: NameForm) => {
+	const submitChangePassword = (data: EmailForm) => {
 		changeMutation.mutate(data);
 	};
+
+	if (userInfo === undefined) {
+		return <>Loading...</>;
+	}
 
 	return (
 		<Flex direction={"column"}>
 			<Text fontSize={"3xl"} fontWeight="bold">
-				Cambiar Nombre
+				Cambiar Contraseña
 			</Text>
-			{edit && userInfo.lastName !== null ? (
+			{edit ? (
 				<Flex
 					as={"form"}
 					direction={"column"}
 					w={["100%", "90%", "80%", "60%", "40%"]}
-					onSubmit={handleSubmit(submitChangeName)}
+					onSubmit={handleSubmit(submitChangePassword)}
 				>
-					<FormControl isInvalid={errors.lastName ? true : false}>
-						<FormLabel>Apellido</FormLabel>
+					<FormControl isInvalid={errors.newEmail ? true : false}>
+						<FormLabel>Nuevo Correo</FormLabel>
 						<Input
-							{...register("lastName", {
+							type="password"
+							{...register("newEmail", {
 								required: {
 									value: true,
-									message: "El apellido es requerido.",
-								},
-								maxLength: {
-									value: 40,
-									message: "El apellido debe tener como maximo 40 caracteres.",
+									message: "El correo es requerida.",
 								},
 							})}
 						/>
 						<FormErrorMessage>
-							{errors.lastName ? errors.lastName.message : ""}
-						</FormErrorMessage>
-					</FormControl>
-
-					<FormControl isInvalid={errors.firstName ? true : false}>
-						<FormLabel>Nombre</FormLabel>
-						<Input
-							{...register("firstName", {
-								required: {
-									value: true,
-									message: "El nombre es requerido.",
-								},
-								maxLength: {
-									value: 40,
-									message: "El nombre debe tener como maximo 40 caracteres.",
-								},
-							})}
-						/>
-						<FormErrorMessage>
-							{errors.firstName ? errors.firstName.message : ""}
+							{errors.newEmail ? errors.newEmail.message : ""}
 						</FormErrorMessage>
 					</FormControl>
 
@@ -185,9 +160,9 @@ const ChangeName = ({ userInfo, userRefetch }: ChangeNameProps) => {
 				>
 					<Text>
 						<Text as="span" fontWeight={"bold"} color={"blue.300"}>
-							Nombre de usuario:
+							Correo Electronico:
 						</Text>
-						{` ${userInfo.lastName} ${userInfo.firstName}`}
+						{` ${userInfo.email}`}
 					</Text>
 					<Button
 						colorScheme={"blue"}
@@ -202,4 +177,4 @@ const ChangeName = ({ userInfo, userRefetch }: ChangeNameProps) => {
 	);
 };
 
-export default ChangeName;
+export default ChangeEmailAddress;

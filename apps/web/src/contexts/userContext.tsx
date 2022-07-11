@@ -14,12 +14,13 @@ export type UserContextType = {
 	userRefetch: (
 		options?: RefetchOptions & RefetchQueryFilters<unknown>
 	) => Promise<QueryObserverResult<AxiosResponse<UserInfo, any>, unknown>>;
+	isLoading: boolean;
 };
 
 export const UserContext = createContext<UserContextType>(undefined);
 
 export function UserProvider({ children }) {
-	const { data, refetch } = useQuery("check-user", () => {
+	const { data, refetch, isLoading } = useQuery("check-user", () => {
 		return axios.get<UserInfo>("/Auth/check-user", { withCredentials: true });
 	});
 
@@ -28,6 +29,7 @@ export function UserProvider({ children }) {
 			value={{
 				userInfo: data ? data.data : undefined,
 				userRefetch: refetch,
+				isLoading,
 			}}
 		>
 			{children}

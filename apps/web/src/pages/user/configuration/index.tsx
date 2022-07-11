@@ -1,20 +1,22 @@
 import { Divider, Flex } from "@chakra-ui/react";
 import { UserContext } from "contexts/userContext";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import {
 	ChangeName,
 	ChangePassword,
 	ChangeEmailAddress,
-} from "ui/src/User/Configuration";
+} from "components/UserConfiguration";
 
 const UserConfiguration = () => {
 	const router = useRouter();
-	const { userInfo, userRefetch } = useContext(UserContext);
+	const { userInfo, userRefetch, isLoading } = useContext(UserContext);
 
-	if (userInfo === undefined) {
-		router.push("/login");
-	}
+	useEffect(() => {
+		if (userInfo === undefined && !isLoading) {
+			router.push("/login");
+		}
+	});
 
 	return (
 		<Flex ml={"2"} mr="2" direction={"column"}>

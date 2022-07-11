@@ -1,6 +1,6 @@
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { Box, Grid, GridItem } from "@chakra-ui/react";
 import Paginate from "ui/src/Paginate";
@@ -10,6 +10,7 @@ import axios from "axios";
 
 import { OrderPaginatedList } from "shared/types/Order/OrderPaginatedList";
 import OrderCard from "components/Orders/OrderCard";
+import { UserContext } from "contexts/userContext";
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 	return {
@@ -22,6 +23,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 const UserMyOrders = ({ params }) => {
 	const router = useRouter();
 	const [page, setPage] = useState(+params.page);
+	const { isLoading: userLoading, userInfo } = useContext(UserContext);
 
 	const { data, isLoading, isError } = useQuery("my-orders", () => {
 		return axios.get<OrderPaginatedList>("/Order/my-orders", {
@@ -34,9 +36,11 @@ const UserMyOrders = ({ params }) => {
 		setPage(num);
 	};
 
-	if (isError) {
-		router.push("/login");
-	}
+	useEffect(() => {
+		if (userInfo === undefined && !userLoading) {
+			router.push("/login");
+		}
+	});
 
 	if (data === undefined || isLoading) {
 		return <>Loading</>;
