@@ -13,10 +13,7 @@ import {
 } from "react-query";
 
 import { UserProvider } from "contexts/userContext";
-import {
-	ShoppingCartContext,
-	ShoppingCartProvider,
-} from "contexts/shoppingCartContext";
+import { ShoppingCartProvider } from "contexts/shoppingCartContext";
 
 const queryConfig: QueryClientConfig = {
 	defaultOptions: {
@@ -31,8 +28,7 @@ const queryConfig: QueryClientConfig = {
 };
 
 const queryClient = new QueryClient(queryConfig);
-
-axios.defaults.baseURL = "https://localhost:7134/api";
+axios.defaults.baseURL = process.env.API_URL;
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (

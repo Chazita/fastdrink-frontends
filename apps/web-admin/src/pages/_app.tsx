@@ -29,7 +29,7 @@ const queryConfig: QueryClientConfig = {
 
 const queryClient = new QueryClient(queryConfig);
 
-axios.defaults.baseURL = "https://localhost:7134/api";
+axios.defaults.baseURL = process.env.API_URL;
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const router = useRouter();
