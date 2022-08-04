@@ -14,6 +14,7 @@ import {
 	NumberDecrementStepper,
 	Link as LinkChakra,
 	Box,
+	StackProps,
 } from "@chakra-ui/react";
 import { Product } from "shared/types";
 
@@ -25,13 +26,23 @@ import {
 	ShoppingCartContext,
 } from "contexts/shoppingCartContext";
 
-type ProductCardProps = {
+interface ProductCardProps extends StackProps {
 	item: Product;
-};
+}
 
-const ProductCard = ({ item }: ProductCardProps) => {
+const ProductCard = ({ item, ...props }: ProductCardProps) => {
 	const [count, setCount] = useState(0);
 	const { dispatch, shoppingCart } = useContext(ShoppingCartContext);
+
+	const calculatePrice = (): number => {
+		let price: number = item.price;
+
+		if (item.discount !== null && item.discount > 0) {
+			price = item.price - (item.price * item.discount) / 100;
+		}
+
+		return price;
+	};
 
 	return (
 		<Stack
@@ -43,6 +54,7 @@ const ProductCard = ({ item }: ProductCardProps) => {
 			bg={useColorModeValue("white", "gray.900")}
 			boxShadow={"xl"}
 			padding={4}
+			{...props}
 		>
 			<Flex>
 				<Link href={`/product-details/${item.id}`} passHref>
@@ -79,9 +91,29 @@ const ProductCard = ({ item }: ProductCardProps) => {
 				<Text fontWeight={600} color={"gray.500"} fontSize="xs" mb={4}>
 					{item.volume}ml
 				</Text>
-				<Text fontSize={"sm"}>
-					${count === 0 ? item.price : item.price * count}
-				</Text>
+				<HStack>
+					<Text fontSize={"lg"}>
+						$
+						{count === 0
+							? calculatePrice().toFixed(2)
+							: (calculatePrice() * count).toFixed(2)}
+					</Text>
+					{item.discount !== null ? (
+						<HStack spacing={2} fontSize="sm">
+							<Text as="p" textDecorationLine={"line-through"}>
+								$
+								{count === 0
+									? item.price.toFixed(2)
+									: (item.price * count).toFixed(2)}
+							</Text>
+							<Text as="p" color="green">
+								{item.discount}% OFF
+							</Text>
+						</HStack>
+					) : (
+						<></>
+					)}
+				</HStack>
 
 				<HStack>
 					<NumberInput
@@ -102,7 +134,7 @@ const ProductCard = ({ item }: ProductCardProps) => {
 							<NumberDecrementStepper />
 						</NumberInputStepper>
 					</NumberInput>
-					<Text fontSize={"sm"}>${item.price}c/u</Text>
+					<Text fontSize={"sm"}>${calculatePrice().toFixed(2)}c/u</Text>
 				</HStack>
 			</Stack>
 			<Divider orientation="vertical" />

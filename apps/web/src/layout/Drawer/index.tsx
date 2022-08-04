@@ -46,7 +46,6 @@ const DrawerApp = ({ isOpen, onClose }: DrawerAppProps) => {
 						colorMode={colorMode}
 						onClick={toggleColorMode}
 						variant="unstyled"
-						_focus={{}}
 					/>
 				</DrawerHeader>
 				<DrawerCloseButton />

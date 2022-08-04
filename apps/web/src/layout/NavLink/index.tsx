@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ReactNode } from "react";
-import { Button, ButtonProps } from "@chakra-ui/react";
+import { Button, ButtonProps, Link as LinkChakra } from "@chakra-ui/react";
 
 interface NavLinkProps extends ButtonProps {
 	children: ReactNode;
@@ -11,9 +11,11 @@ interface NavLinkProps extends ButtonProps {
 const NavLink = ({ children, path, onClick, ...props }: NavLinkProps) => {
 	return (
 		<Link href={path} passHref>
-			<Button size={"lg"} variant={"link"} onClick={onClick} {...props}>
-				{children}
-			</Button>
+			<LinkChakra>
+				<Button size={"lg"} variant={"link"} onClick={onClick} {...props}>
+					{children}
+				</Button>
+			</LinkChakra>
 		</Link>
 	);
 };

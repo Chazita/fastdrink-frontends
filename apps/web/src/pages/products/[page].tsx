@@ -54,7 +54,10 @@ const Products = ({ params }) => {
 	);
 
 	const handlePagination = (num: number) => {
-		router.push(`/products/${num}`, `/products/${num}`, { shallow: true });
+		router.push(`/products/${num}`, `/products/${num}`, {
+			shallow: true,
+			scroll: true,
+		});
 		setPage(num);
 	};
 

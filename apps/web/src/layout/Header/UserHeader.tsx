@@ -1,5 +1,11 @@
 import Link from "next/link";
-import { Avatar, IconButton, Menu, MenuButton } from "@chakra-ui/react";
+import {
+	Avatar,
+	IconButton,
+	Menu,
+	MenuButton,
+	Link as LinkChakra,
+} from "@chakra-ui/react";
 import { UserContext } from "contexts/userContext";
 import UserMenuItems from "layout/UserMenuItems";
 import { useContext } from "react";
@@ -24,13 +30,15 @@ const UserHeader = () => {
 
 	return (
 		<Link href={"/login"} passHref>
-			<IconButton
-				variant={"ghost"}
-				size={"md"}
-				icon={<MdPerson size={"24"} />}
-				aria-label="signIn"
-				display={{ base: "none", md: "flex" }}
-			/>
+			<LinkChakra>
+				<IconButton
+					variant={"ghost"}
+					size={"md"}
+					icon={<MdPerson size={"24"} />}
+					aria-label="signIn"
+					display={{ base: "none", md: "flex" }}
+				/>
+			</LinkChakra>
 		</Link>
 	);
 };
