@@ -39,18 +39,18 @@ const Home = () => {
 				</SimpleGrid>
 			</Box>
 
-			<Box padding={5}>
-				<Heading mb={4}>Nuevos Descuentos</Heading>
-				<SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
-					{discountsProducts.data !== undefined ? (
-						discountsProducts.data.data.map((product) => (
+			{discountsProducts.data !== undefined ? (
+				<Box padding={5}>
+					<Heading mb={4}>Nuevos Descuentos</Heading>
+					<SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
+						{discountsProducts.data.data.map((product) => (
 							<ProductCard item={product} key={product.id} />
-						))
-					) : (
-						<></>
-					)}
-				</SimpleGrid>
-			</Box>
+						))}
+					</SimpleGrid>
+				</Box>
+			) : (
+				<></>
+			)}
 		</div>
 	);
 };
