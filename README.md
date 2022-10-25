@@ -1,10 +1,5 @@
 # Fast Drink Turbo monorepo
 
-## Websites
-
-- `web-ecommerce`: https://fastdrink-frontends-ecommerce.vercel.app/
-- `web-admin-dashboard`: https://fastdrink-frontends-dashboard.vercel.app/
-
 ## Apps and Packages
 
 - `web-admin`: a admin dashboard [Next.js](https://nextjs.org) app
